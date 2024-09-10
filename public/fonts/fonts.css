@@ -1,0 +1,44 @@
+@font-face {
+  font-family: Noto_Sans_Mono;
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url(53eb18c8de8600a4.p.woff2) format('woff2');
+}
+
+@font-face {
+  font-family: Noto_Sans_Mono;
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url(874f58433ac4957d.p.woff2) format('woff2');
+}
+
+@font-face {
+  font-family: Noto_Sans_Mono;
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url(062c6db97a9cf312.p.woff2) format('woff2');
+}
+
+@font-face {
+  font-family: Noto_Sans_Mono;
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url(9a22687b80a8fafa.p.woff2) format('woff2');
+}
+
+@font-face {
+  font-family: Reserved_arial;
+  src: local('Arial');
+  ascent-override: 81.3%;
+  descent-override: 22.28%;
+  line-gap-override: 0%;
+  size-adjust: 131.49%;
+}
