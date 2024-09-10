@@ -30,7 +30,7 @@ const appName = inject("appName")
       <ButtonControl
         @click="goToAuthModals(router, '/login')"
         text="Login"
-        class="button sing-in--button"
+        class="button"
       />
       <ButtonControl
         @click="goToAuthModals(router, '/signup')"

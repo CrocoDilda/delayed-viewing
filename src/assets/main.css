@@ -1,4 +1,4 @@
-@import './style_zero.css';
+@import "./style_zero.css";
 
 :root {
   --color-main-black: #121212;
@@ -26,10 +26,11 @@ body {
   text-rendering: optimizeLegibility;
   color: var(--color-main-white);
   background-color: #121212;
-  font-family: 'Noto_Sans_Mono';
+  font-family: "Noto_Sans_Mono";
 }
 
 * {
+  border-radius: 3px;
   &:focus-visible {
     outline-offset: 2px;
     outline: 3px solid var(--color-main-green);
