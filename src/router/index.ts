@@ -11,12 +11,14 @@ const router = createRouter({
     {
       path: "/login",
       name: "login",
-      component: () => import("../views/WelcomePage/LoginForm/LoginForm.vue"),
+      component: () =>
+        import("../views/WelcomePage/AuthModals/LoginForm/LoginForm.vue"),
     },
     {
       path: "/signup",
       name: "signup",
-      component: () => import("../views/WelcomePage/SignUpForm/SignUpForm.vue"),
+      component: () =>
+        import("../views/WelcomePage/AuthModals/SignUpForm/SignUpForm.vue"),
     },
   ],
 })
