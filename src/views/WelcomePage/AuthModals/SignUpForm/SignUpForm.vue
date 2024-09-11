@@ -2,11 +2,47 @@
 import { useRouter } from "vue-router"
 
 import { goToAuthModals } from "../auth-modals"
+import LabelControl from "@/components/controls/LabelControl/LabelControl.vue"
+import ButtonControl from "@/components/controls/ButtonControl.vue"
+import HeaderItem from "@/components/HeaderItem/HeaderItem.vue"
 
 const router = useRouter()
 </script>
 
 <template>
-  <h2>This is sign up</h2>
-  <button @click="goToAuthModals(router, '/login')">To login</button>
+  <div class="wrapper">
+    <HeaderItem />
+    <main class="main">
+      <section class="form">
+        <h3 class="form--title">Registration</h3>
+        <LabelControl
+          description="Unique name"
+          inputType="text"
+          placeholder="My-wonderful_name"
+        />
+        <LabelControl
+          description="Create password"
+          inputType="password"
+          placeholder="********"
+        />
+        <LabelControl
+          description="Repeat password"
+          inputType="password"
+          placeholder="********"
+        />
+        <div class="form--buttons-inner">
+          <ButtonControl text="Create account" class="form--button" />
+          <ButtonControl
+            @click="goToAuthModals(router, '/login')"
+            text="Login"
+            class="form--button button-router"
+          />
+        </div>
+      </section>
+    </main>
+  </div>
 </template>
+
+<style scoped>
+@import url("../auth-modals.css");
+</style>

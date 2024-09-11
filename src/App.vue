@@ -2,7 +2,7 @@
 import { useRouter } from "vue-router"
 import { onMounted, provide } from "vue"
 
-provide("appName", "Delayed viewing")
+provide("appName", "Delayed Viewing")
 
 const router = useRouter()
 

@@ -32,8 +32,12 @@ function toggleInputType() {
         <PassHidden v-show="inputTypeRef === 'text'" />
       </button>
     </div>
-    <input :type="inputType" class="label--input" />
-    <p class="label--invalid">Введите коректные данные {{ error }}</p>
+    <input
+      :type="inputTypeRef"
+      :placeholder="placeholder"
+      class="label--input"
+    />
+    <p class="label--invalid">{{ error }}</p>
   </label>
 </template>
 
