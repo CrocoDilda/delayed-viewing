@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router"
 
-import { goToRoutesPage } from "../../../views-scripts"
+import { goToRoutesPage } from "@/utils/utils"
 
 import {
   passingRouterVariable,

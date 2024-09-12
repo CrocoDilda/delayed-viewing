@@ -1,8 +1,6 @@
 import { ref } from "vue"
 
-import { goToRoutesPage } from "../../views-scripts"
-
-import { getData } from "../../views-scripts"
+import { goToRoutesPage, getData, postData } from "@/utils/utils"
 
 type ObjectNum = Record<string, number>
 type ObjectStr = Record<string, string>
@@ -29,6 +27,16 @@ function passingRouterVariable(router: any) {
 function successfulAuthorization() {
   // функция для передачи переменной роутера
   goToRoutesPage(routerInstance, "/home")
+}
+
+function successfulRegistration(path: string, obj: Record<string, string>) {
+  const postObj = {
+    name: obj.name,
+    password: obj.pass,
+    movie_id: obj.name,
+  }
+  postData(path, postObj)
+  successfulAuthorization()
 }
 
 function validateInput(
@@ -69,23 +77,22 @@ function validateForm(obj: Record<string, string>) {
     } else {
       errorsValidate.value.repeatPass = ""
       if (!falseValidate) {
-        serverValidate(obj.name, obj.pass, true)
+        serverValidate(obj, true)
       }
     }
   } else {
     if (!falseValidate) {
-      serverValidate(obj.name, obj.pass)
+      serverValidate(obj)
     }
   }
 }
 
 async function serverValidate(
-  userName: string,
-  userPass?: string,
+  obj: Record<string, string>,
   thisIsPass?: boolean
 ) {
   try {
-    let link = `name=${userName}` + (!thisIsPass ? `&password=${userPass}` : "")
+    let link = `name=${obj.name}` + (!thisIsPass ? `&password=${obj.pass}` : "")
 
     const response = await getData("users", `${link}`)
 
@@ -93,8 +100,7 @@ async function serverValidate(
 
     if (thisIsPass) {
       if (!response.length) {
-        console.log(!response.length)
-        successfulAuthorization()
+        successfulRegistration("users", obj)
       } else {
         errorsValidate.value.name = "This name is taken"
       }

@@ -2,7 +2,7 @@
 import { inject } from "vue"
 import { useRouter } from "vue-router"
 
-import { goToRoutesPage } from "../views-scripts"
+import { goToRoutesPage } from "@/utils/utils"
 
 import IconClapperboard from "../../components/icons/IconClapperboard.vue"
 import ButtonControl from "../../components/controls/ButtonControl.vue"
