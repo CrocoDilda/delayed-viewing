@@ -11,8 +11,11 @@ type Props = {
   error?: string | null
 }
 
+const model = defineModel<string>()
+
 const props = defineProps<Props>()
 const inputTypeRef = ref(props.inputType)
+const inputValue = ref("")
 
 function toggleInputType() {
   inputTypeRef.value = inputTypeRef.value === "password" ? "text" : "password"
@@ -36,6 +39,8 @@ function toggleInputType() {
       :type="inputTypeRef"
       :placeholder="placeholder"
       class="label--input"
+      @input="model = inputValue"
+      v-model="inputValue"
     />
     <p class="label--invalid">{{ error }}</p>
   </label>

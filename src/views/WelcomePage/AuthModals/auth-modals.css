@@ -7,7 +7,6 @@
 
 .main {
   display: grid;
-  justify-content: center;
   align-items: center;
   gap: 20px;
   color: var(--color-main-white);
@@ -51,4 +50,8 @@
     background-color: var(--color-main-white);
     color: var(--color-gray100);
   }
+}
+
+.form--error {
+  color: var(--color-red);
 }

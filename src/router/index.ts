@@ -20,6 +20,11 @@ const router = createRouter({
       component: () =>
         import("../views/WelcomePage/AuthModals/SignUpForm/SignUpForm.vue"),
     },
+    {
+      path: "/home",
+      name: "home",
+      component: () => import("../views/HomePage/HomePage.vue"),
+    },
   ],
 })
 

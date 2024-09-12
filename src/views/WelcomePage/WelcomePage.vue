@@ -2,7 +2,7 @@
 import { inject } from "vue"
 import { useRouter } from "vue-router"
 
-import { goToAuthModals } from "./AuthModals/auth-modals"
+import { goToRoutesPage } from "../views-scripts"
 
 import IconClapperboard from "../../components/icons/IconClapperboard.vue"
 import ButtonControl from "../../components/controls/ButtonControl.vue"
@@ -31,12 +31,12 @@ const appName = inject("appName")
       </section>
       <section class="start">
         <ButtonControl
-          @click="goToAuthModals(router, '/login')"
+          @click="goToRoutesPage(router, '/login')"
           text="Login"
           class="button"
         />
         <ButtonControl
-          @click="goToAuthModals(router, '/signup')"
+          @click="goToRoutesPage(router, '/signup')"
           text="Create account"
           class="button"
         />
