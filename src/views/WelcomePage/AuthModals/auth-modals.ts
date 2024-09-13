@@ -21,12 +21,11 @@ let routerInstance: any = null
 function passingRouterVariable(router: any) {
   // функция для передачи переменной роутера
   routerInstance = router
-  console.log(routerInstance)
 }
 
-function successfulAuthorization() {
-  // функция для передачи переменной роутера
-  goToRoutesPage(routerInstance, "/home")
+function successfulAuthorization(name: string) {
+  localStorage.setItem("userName", name)
+  goToRoutesPage(routerInstance, "/home", true)
 }
 
 function successfulRegistration(path: string, obj: Record<string, string>) {
@@ -36,7 +35,7 @@ function successfulRegistration(path: string, obj: Record<string, string>) {
     movie_id: obj.name,
   }
   postData(path, postObj)
-  successfulAuthorization()
+  successfulAuthorization(obj.name)
 }
 
 function validateInput(
@@ -110,7 +109,7 @@ async function serverValidate(
           "Please check that the entered data is correct"
       } else {
         errorsValidate.value.form = ""
-        successfulAuthorization()
+        successfulAuthorization(obj.name)
       }
     }
   } catch (error) {

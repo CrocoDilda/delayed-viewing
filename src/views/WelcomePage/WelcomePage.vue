@@ -31,12 +31,12 @@ const appName = inject("appName")
       </section>
       <section class="start">
         <ButtonControl
-          @click="goToRoutesPage(router, '/login')"
+          @click="goToRoutesPage(router, '/login', true)"
           text="Login"
           class="button"
         />
         <ButtonControl
-          @click="goToRoutesPage(router, '/signup')"
+          @click="goToRoutesPage(router, '/signup', true)"
           text="Create account"
           class="button"
         />

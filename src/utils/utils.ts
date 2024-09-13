@@ -3,17 +3,18 @@
 const address = `https://73509f220638bf50.mokky.dev`
 
 // функция для роутинга
-function goToRoutesPage(router: any, views: string) {
-  router.push(views)
+function goToRoutesPage(router: any, views: string, isReplace?: boolean) {
+  if (isReplace) {
+    router.replace(views)
+  } else {
+    router.push(views)
+  }
 }
 
 // функция для получения данных
 async function getData(resource: string, path?: string) {
   try {
-    const url = path
-      ? `${address}/${resource}?${path}`
-      : `${address}/${resource}`
-
+    const url = `${address}/${resource}` + (path ? `?${path}` : "")
     const response = await fetch(`${url}`)
 
     console.log(response)
