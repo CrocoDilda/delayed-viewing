@@ -1,10 +1,9 @@
-// stores/moviesStore.ts
 import { defineStore } from "pinia"
-import { getData } from "@/utils/utils" // Импорт функции из api.ts
+import { getData } from "@/utils/utils"
 
 export const useMoviesStore = defineStore("movies", {
   state: () => ({
-    movies: [] as { id: number; title: string; year: number }[],
+    movies: [] as { id: string; movies: Record<string, string> }[],
   }),
   actions: {
     async updateMovies() {

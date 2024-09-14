@@ -16,8 +16,6 @@ async function getData(resource: string, path?: string) {
   try {
     const url = `${address}/${resource}` + (path ? `?${path}` : "")
     const response = await fetch(`${url}`)
-
-    console.log(response)
     if (!response.ok) {
       throw new Error("Network response was not ok")
     }
