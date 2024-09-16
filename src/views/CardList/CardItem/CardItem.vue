@@ -1,6 +1,7 @@
 <script setup lang="ts">
 type Props = {
   obj: Record<string, string>
+  tabindex: number
 }
 
 defineProps<Props>()
@@ -8,7 +9,7 @@ defineProps<Props>()
 
 <template>
   <li>
-    <button class="card">
+    <button :tabindex="tabindex" class="card">
       <img class="card--image" :src="obj.image" alt="movies" />
       <div class="card--description">
         <p class="card--title">

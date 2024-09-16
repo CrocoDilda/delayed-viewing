@@ -1,6 +1,7 @@
 // Этот файл содержит общие для всего проекта функции, которые будут использоваться на нескольких страницах
 
-import { useMoviesStore } from "@/stores/films-list" // Путь к вашему файлу store
+import { useMoviesStore } from "@/stores/films-list"
+import { useTabindex } from "@/stores/tabindex"
 
 const address = `https://73509f220638bf50.mokky.dev`
 
@@ -63,4 +64,16 @@ async function updateMovies() {
   }
 }
 
-export { goToRoutesPage, getData, postData, updateMovies, address }
+function changeTabindex() {
+  const tabindex = useTabindex()
+  tabindex.tabindexVar = tabindex.tabindexVar === 0 ? -1 : 0
+}
+
+export {
+  goToRoutesPage,
+  getData,
+  postData,
+  updateMovies,
+  changeTabindex,
+  address,
+}

@@ -20,6 +20,7 @@ const inputValue = ref("")
 function toggleInputType() {
   inputTypeRef.value = inputTypeRef.value === "password" ? "text" : "password"
 }
+localStorage
 </script>
 
 <template>

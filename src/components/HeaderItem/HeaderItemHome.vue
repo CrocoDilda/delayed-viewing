@@ -3,13 +3,25 @@ import { inject } from "vue"
 
 import ButtonControl from "../controls/ButtonControl.vue"
 
+type Props = {
+  tabindex: number
+}
+
+defineProps<Props>()
+
 const appName = inject("appName")
+const emit = defineEmits(["toggleAddMovie"])
 </script>
 
 <template>
   <header class="header">
     <h2 class="header--text">{{ appName }}</h2>
-    <ButtonControl text="Add movie +" class="button" />
+    <ButtonControl
+      :tabindex="tabindex"
+      @click="emit('toggleAddMovie')"
+      text="Add movie +"
+      class="button"
+    />
   </header>
 </template>
 
