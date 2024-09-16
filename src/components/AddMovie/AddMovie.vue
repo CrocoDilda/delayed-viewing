@@ -1,42 +1,75 @@
 <script setup lang="ts">
-import "./add-movie"
-import { useShowInfo } from "./add-movie"
+import { ref, onMounted, onUnmounted } from "vue"
+
+import { changeShowInfo, showInfo } from "./add-movie"
+
+import { useMoviesStore } from "@/stores/films-list"
 
 import LabelControl from "../controls/LabelControl/LabelControl.vue"
 import ButtonControl from "../controls/ButtonControl.vue"
 import IconClose from "../icons/IconClose.vue"
 import IconInformation from "../icons/IconInformation.vue"
 
-const { showInfo, changeShowInfo } = useShowInfo()
-const emit = defineEmits(["toggleAddMovie"])
+import { changeTabindex } from "@/utils/utils"
+
+type UserMovie = Record<string, string>
+type Props = {
+  toggleAddMovie: Function
+}
+
+const userMovie = ref<UserMovie>({
+  name: "",
+  genre: "",
+  year: "",
+  length: "",
+  image: "",
+})
+
+const props = defineProps<Props>()
+
+function updateList(obj: Record<string, string>) {
+  const moviesStore = useMoviesStore()
+  moviesStore.movies.push(obj)
+  console.log(moviesStore.movies)
+  props.toggleAddMovie()
+}
+
+onMounted(() => {
+  changeTabindex(-1)
+})
+
+onUnmounted(() => {
+  changeTabindex(0)
+})
 </script>
 
 <template>
-  <div class="wrapper">
+  <div class="wrapperr">
     <div class="background"></div>
-    <div class="innerrr">
+    <div class="inner">
       <div v-if="showInfo" class="explanation">
         <div @click="changeShowInfo" class="explanation--background"></div>
         <p class="explanation--description">
           При нажатии на кнопку <b>Autocomplete</b> вы запросите данные по
           названию, указанному в поле <b>"Name"</b>, с удалённой базы данных
           фильмов. Остальные поля будут автоматически заполнены
-          <span class="expalnation--smile">😲</span> . Проверьте корректность
+          <span class="explanation--smile">😲</span> . Проверьте корректность
           введённого названия и полученных данный. Возможно сервис вернул не то,
           что вы имели ввиду. Так же вы можете вручную заполнить все поля
-          <span class="expalnation--smile">🥲</span>. Никакие поля, кроме
+          <span class="explanation--smile">🥲</span>. Никакие поля, кроме
           <b>"Name"</b>, не являются обязательными к заполнению
-          <span class="expalnation--smile">🫣</span>.
+          <span class="explanation--smile">🫣</span>.
         </p>
       </div>
       <div class="form">
-        <button @click="emit('toggleAddMovie')" class="close">
+        <button @click="toggleAddMovie()" class="close">
           <IconClose />
         </button>
         <LabelControl
-          placeholder="Wonderful film"
-          description="Film name"
+          placeholder="Мстители: Финал"
+          description="Film name*"
           inputType="text"
+          v-model="userMovie.name"
         />
         <div class="autocomplete">
           <ButtonControl text="Autocomplete" class="autocomplete--button" />
@@ -46,25 +79,33 @@ const emit = defineEmits(["toggleAddMovie"])
         </div>
         <LabelControl
           description="Film genre"
-          placeholder="Drama, action"
+          placeholder="фантастика, боевик, драма"
           inputType="text"
+          v-model="userMovie.genre"
         />
         <LabelControl
           description="Released"
-          placeholder="2022"
+          placeholder="2019"
           inputType="text"
+          v-model="userMovie.year"
         />
         <LabelControl
           description="Duration"
-          placeholder="120 min"
+          placeholder="3 ч 1 мин"
           inputType="text"
+          v-model="userMovie.length"
         />
         <LabelControl
           description="Movie poster"
-          placeholder="https://kinopoisk-ru/film"
+          placeholder="https://kinopoisk-ru/avengers"
           inputType="text"
+          v-model="userMovie.image"
         />
-        <ButtonControl text="Add movie" class="button" />
+        <ButtonControl
+          @click="updateList(userMovie)"
+          text="Add movie"
+          class="button"
+        />
       </div>
     </div>
   </div>

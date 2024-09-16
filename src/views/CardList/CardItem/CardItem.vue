@@ -53,6 +53,7 @@ defineProps<Props>()
   border-radius: 6px;
   justify-self: center;
   width: 100%;
+  object-fit: cover;
 }
 
 .card--title {

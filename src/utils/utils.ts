@@ -51,7 +51,7 @@ async function updateMovies() {
       "movies",
       `id=${localStorage.getItem("userName")}`
     ) // Вызов импортированной функции
-
+    console.log(newMovies)
     // Получаем экземпляр хранилища
     const moviesStore = useMoviesStore()
 
@@ -64,9 +64,10 @@ async function updateMovies() {
   }
 }
 
-function changeTabindex() {
+// функция для изменения tabindex
+function changeTabindex(value: number) {
   const tabindex = useTabindex()
-  tabindex.tabindexVar = tabindex.tabindexVar === 0 ? -1 : 0
+  tabindex.tabindexVar = value
 }
 
 export {

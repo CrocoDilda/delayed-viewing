@@ -18,10 +18,12 @@ const appName = inject("appName")
   justify-content: start;
   background-color: transparent;
   padding: 15px 0 10px 15px;
+  width: 100vw;
+  text-align: start;
 }
 
 .header--text {
-  font-size: 1.5rem;
+  font-size: 28px;
   color: var(--color-gray);
 }
 </style>

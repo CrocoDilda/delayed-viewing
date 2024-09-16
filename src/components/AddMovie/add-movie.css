@@ -1,4 +1,4 @@
-.wrapper {
+.wrapperr {
   top: 0;
   left: 0;
   position: fixed;
@@ -19,14 +19,13 @@
   opacity: 0.9;
 }
 
-.innerrr {
+.inner {
   width: 100%;
   max-width: 400px;
   margin: 0 auto;
   position: relative;
   background-color: var(--color-gray100);
   padding: 30px;
-
   border-radius: 15px;
   z-index: 1;
   opacity: 1;
@@ -60,7 +59,7 @@
   z-index: 2;
 }
 
-.expalnation--smile {
+.explanation--smile {
   font-size: 20px;
 }
 

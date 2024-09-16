@@ -37,7 +37,7 @@ const emit = defineEmits(["toggleAddMovie"])
 }
 
 .header--text {
-  font-size: 1.5rem;
+  font-size: 28px;
   color: var(--color-gray);
 }
 
