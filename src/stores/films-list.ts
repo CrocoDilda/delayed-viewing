@@ -1,21 +1,9 @@
 import { defineStore } from "pinia"
-import { getData } from "@/utils/utils"
+
+type Movie = Record<string, string>
 
 export const useMoviesStore = defineStore("movies", {
   state: () => ({
-    movies: [] as { id: string; movies: Record<string, string> }[],
+    movies: [] as Movie[],
   }),
-  actions: {
-    async updateMovies() {
-      try {
-        const newMovies = await getData(
-          "movies",
-          `id=${localStorage.getItem("userName")}`
-        ) // Вызов импортированной функции
-        this.movies = newMovies // Обновление состояния
-      } catch (error) {
-        console.error("Failed to fetch movies:", error)
-      }
-    },
-  },
 })

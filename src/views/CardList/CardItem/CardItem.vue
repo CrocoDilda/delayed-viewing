@@ -3,32 +3,75 @@ type Props = {
   obj: Record<string, string>
 }
 
-const props = defineProps<Props>()
-
-console.log(props.obj)
+defineProps<Props>()
 </script>
+
 <template>
-  <div class="wrapper">
-    <div class="card">
-      <img :src="obj.image" alt="" class="card--image" />
-      <h3 class="card--title">{{ obj.name }}</h3>
-      <ul class="card--description">
-        <li class="card--item">{{ obj.year }}</li>
-        <li class="card--item">{{ obj.genre }}</li>
-        <li class="card--item">{{ obj.length }}</li>
-        <li class="card--item">{{ obj.type }}</li>
-      </ul>
-    </div>
-  </div>
+  <li>
+    <button class="card">
+      <img class="card--image" :src="obj.image" alt="movies" />
+      <div class="card--description">
+        <p class="card--title">
+          {{ obj.name }}
+        </p>
+        <p class="card--genre">{{ obj.genre }}</p>
+        <div class="card--inner">
+          <p class="card--year">{{ obj.year }}</p>
+          <p class="card--length">{{ obj.length }} min</p>
+        </div>
+        <p class="card--year">{{ obj.type }}</p>
+      </div>
+    </button>
+  </li>
 </template>
 
 <style scoped>
-.wrapper {
-  display: grid;
-  grid-template-rows: auto 1fr;
-  gap: 10px;
-}
 .card {
-  border: 1px solid red;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  text-align: left;
+  padding: 10px;
+  border-radius: 12px;
+  max-width: 287px;
+  transition: background-color 0.2s;
+  background-color: var(--color-main-gray);
+  color: var(--color-main-white);
+  height: 100%;
+  border: solid 3px var(--color-gray100);
+  &:hover {
+    background-color: var(--color-gray);
+  }
+  &:hover {
+    background-color: var(--color-gray);
+  }
+}
+
+.card--image {
+  height: 400px;
+  border-radius: 6px;
+  justify-self: center;
+  width: 100%;
+}
+
+.card--title {
+  font-size: 18px;
+  color: var(--color-main-green);
+  font-weight: 700;
+}
+
+.card--description {
+  display: grid;
+  gap: 15px;
+  padding-top: 15px;
+  font-size: 1rem;
+}
+
+.card--inner {
+  display: flex;
+  justify-content: space-between;
+}
+
+.card--genre {
 }
 </style>

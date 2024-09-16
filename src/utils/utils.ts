@@ -1,5 +1,7 @@
 // Этот файл содержит общие для всего проекта функции, которые будут использоваться на нескольких страницах
 
+import { useMoviesStore } from "@/stores/films-list" // Путь к вашему файлу store
+
 const address = `https://73509f220638bf50.mokky.dev`
 
 // функция для роутинга
@@ -42,4 +44,23 @@ async function postData(path: string, obj: Record<string, string>) {
   }
 }
 
-export { goToRoutesPage, getData, postData, address }
+async function updateMovies() {
+  try {
+    const newMovies = await getData(
+      "movies",
+      `id=${localStorage.getItem("userName")}`
+    ) // Вызов импортированной функции
+
+    // Получаем экземпляр хранилища
+    const moviesStore = useMoviesStore()
+
+    // Обновляем состояние в хранилище
+    moviesStore.$patch({
+      movies: newMovies[0].movies,
+    })
+  } catch (error) {
+    console.error("Failed to fetch movies:", error)
+  }
+}
+
+export { goToRoutesPage, getData, postData, updateMovies, address }

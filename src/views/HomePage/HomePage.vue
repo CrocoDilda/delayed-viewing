@@ -2,26 +2,19 @@
 import { useRouter } from "vue-router"
 import { onMounted } from "vue"
 
-import { goToRoutesPage, getData } from "@/utils/utils"
+import { goToRoutesPage, updateMovies } from "@/utils/utils"
 
 import { useMoviesStore } from "@/stores/films-list"
 
 const moviesStore = useMoviesStore()
 const router = useRouter()
-const user = localStorage.getItem("userName")
 
-const updateMovies = () => {
-  moviesStore.updateMovies()
+async function getFilms() {
+  await updateMovies()
   console.log(moviesStore.movies)
-}
-
-function getFilms() {
-  updateMovies()
-  const path = `/home/` + (moviesStore.movies ? "main" : "start")
+  const path = `/home/` + (!!moviesStore.movies.length ? "main" : "start")
   goToRoutesPage(router, path, true)
 }
-
-console.log(moviesStore.movies)
 
 onMounted(() => {
   getFilms()
