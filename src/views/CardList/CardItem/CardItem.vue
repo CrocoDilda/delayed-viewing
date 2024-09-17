@@ -18,7 +18,7 @@ defineProps<Props>()
         <p class="card--genre">{{ obj.genre }}</p>
         <div class="card--inner">
           <p class="card--year">{{ obj.year }}</p>
-          <p class="card--length">{{ obj.length }} min</p>
+          <p class="card--length">{{ obj.length }}</p>
         </div>
         <p class="card--year">{{ obj.type }}</p>
       </div>

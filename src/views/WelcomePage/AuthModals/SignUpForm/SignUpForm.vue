@@ -7,6 +7,7 @@ import {
   passingRouterVariable,
   validateForm,
   errorsValidate,
+  changeForm,
   loading,
 } from "../auth-modals"
 
@@ -68,7 +69,7 @@ const userFormValues = {
             class="form--button"
           />
           <ButtonControl
-            @click="goToRoutesPage(router, '/login')"
+            @click="changeForm('/login')"
             text="Login"
             class="form--button button-router"
           />

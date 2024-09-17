@@ -4,6 +4,7 @@ import { useMoviesStore } from "@/stores/films-list"
 import { useTabindex } from "@/stores/tabindex"
 
 const address = `https://73509f220638bf50.mokky.dev`
+type Movie = Record<string, string>
 
 // функция для роутинга
 function goToRoutesPage(router: any, views: string, isReplace?: boolean) {
@@ -15,31 +16,39 @@ function goToRoutesPage(router: any, views: string, isReplace?: boolean) {
 }
 
 // функция для получения данных
-async function getData(resource: string, path?: string) {
+async function getData(path: string): Promise<Movie[]> {
   try {
-    const url = `${address}/${resource}` + (path ? `?${path}` : "")
-    const response = await fetch(`${url}`)
+    const url = `${address}/${path}`
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
     if (!response.ok) {
       throw new Error("Network response was not ok")
     }
-    return await response.json()
+    const data = await response.json()
+    return data
   } catch (error) {
     console.error("Ошибка при получении данных:", error)
-    throw error // Перебрасываем ошибку, чтобы её можно было обработать выше по стеку
+    throw error
   }
 }
 
 // функция для отправки данных (в obj передаётся объект, который идёт на сервер)
 async function postData(path: string, obj: Record<string, string>) {
   try {
-    const response = await fetch(`${address}/${path}`, {
+    const res = await fetch(`${address}/${path}`, {
       method: "POST",
       headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify(obj),
     })
-    console.log(response)
+      .then((resp) => resp.json())
+      .then((json) => console.log(json))
   } catch (error) {
     console.error("Ошибка при отправке данных:", error)
   }
@@ -48,16 +57,15 @@ async function postData(path: string, obj: Record<string, string>) {
 async function updateMovies() {
   try {
     const newMovies = await getData(
-      "movies",
-      `id=${localStorage.getItem("userName")}`
+      `movies?userName=${localStorage.getItem("userName")}`
     ) // Вызов импортированной функции
-    console.log(newMovies)
+
     // Получаем экземпляр хранилища
     const moviesStore = useMoviesStore()
-
+    console.log(newMovies)
     // Обновляем состояние в хранилище
     moviesStore.$patch({
-      movies: newMovies[0].movies,
+      movies: newMovies,
     })
   } catch (error) {
     console.error("Failed to fetch movies:", error)

@@ -10,7 +10,7 @@ import ButtonControl from "../controls/ButtonControl.vue"
 import IconClose from "../icons/IconClose.vue"
 import IconInformation from "../icons/IconInformation.vue"
 
-import { changeTabindex } from "@/utils/utils"
+import { changeTabindex, postData } from "@/utils/utils"
 
 type UserMovie = Record<string, string>
 type Props = {
@@ -18,6 +18,7 @@ type Props = {
 }
 
 const userMovie = ref<UserMovie>({
+  userName: `${localStorage.getItem("userName")}`,
   name: "",
   genre: "",
   year: "",
@@ -27,10 +28,21 @@ const userMovie = ref<UserMovie>({
 
 const props = defineProps<Props>()
 
+const model = defineModel<string>()
+
 function updateList(obj: Record<string, string>) {
+  postData(`movies?userName=${localStorage.getItem("userName")}`, obj)
   const moviesStore = useMoviesStore()
   moviesStore.movies.push(obj)
-  console.log(moviesStore.movies)
+  model.value = useMoviesStore.name
+  userMovie.value = {
+    userName: `${localStorage.getItem("userName")}`,
+    name: "",
+    genre: "",
+    year: "",
+    length: "",
+    image: "",
+  }
   props.toggleAddMovie()
 }
 

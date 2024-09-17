@@ -115,6 +115,7 @@ async function registerAndAuthorizeUser(
   path: string
 ) {
   try {
+    errorsValidate.value.email = ""
     loading.value = true
     const res = await fetch(`${address}/${path}`, {
       method: "POST",
@@ -135,56 +136,28 @@ async function registerAndAuthorizeUser(
 
     goToRoutesPage(routerInstance, "/home", true)
   } catch (error) {
+    errorsValidate.value.email = "This email is taken"
     console.log("Ошибка при регистрации:", error)
   } finally {
     loading.value = false
   }
 }
 
-// // Функция валидации на сервере
-// async function serverValidate(
-//   obj: Record<string, string>,
-//   thisIsPass?: boolean
-// ) {
-//   try {
-//     let link = `name=${obj.name}` + (!thisIsPass ? `&password=${obj.pass}` : "")
-//     const response = await getData("users", `${link}`)
+function changeForm(page: string) {
+  errorsValidate.value = {
+    name: "",
+    pass: "",
+    form: "",
+    email: "",
+  }
+  goToRoutesPage(routerInstance, page, false)
+}
 
-//     if (thisIsPass) {
-//       if (!response.length) {
-//         successfulRegistration("users", obj)
-//       } else {
-//         errorsValidate.value.name = "This name is taken"
-//       }
-//     } else {
-//       if (!response.length) {
-//         errorsValidate.value.form =
-//           "Please check that the entered data is correct"
-//       } else {
-//         errorsValidate.value.form = ""
-//         successfulAuthorization(obj.name)
-//       }
-//     }
-//   } catch (error) {
-//     console.log("Ошибка при получении данных:", error)
-//   }
-// }
-
-// // Функция для успешной авторизации
-// function successfulAuthorization(name: string) {
-//   localStorage.setItem("userName", name)
-//   goToRoutesPage(routerInstance, "/home", true)
-// }
-
-// // Функция для успешной регистрации
-// function successfulRegistration(path: string, obj: Record<string, string>) {
-//   const postObj = {
-//     name: obj.name,
-//     password: obj.pass,
-//     movie_id: obj.name,
-//   }
-//   postData(path, postObj)
-//   successfulAuthorization(obj.name)
-// }
-
-export { validateForm, passingRouterVariable, errorsValidate, loading, text }
+export {
+  validateForm,
+  passingRouterVariable,
+  changeForm,
+  errorsValidate,
+  loading,
+  text,
+}

@@ -8,6 +8,8 @@ import {
   tabindex,
   addMovieShow,
   moviesStore,
+  filmName,
+  toastIsShow,
 } from "./card-list"
 </script>
 
@@ -17,7 +19,11 @@ import {
       :tabindex="tabindex.tabindexVar"
       @toggleAddMovie="toggleAddMovie"
     />
-    <AddMovie :toggleAddMovie="toggleAddMovie" v-show="addMovieShow" />
+    <AddMovie
+      v-model="filmName"
+      :toggleAddMovie="toggleAddMovie"
+      v-show="addMovieShow"
+    />
     <ul class="list">
       <CardItem
         v-for="(movie, id) in moviesStore.movies"
