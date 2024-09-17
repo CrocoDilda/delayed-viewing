@@ -7,18 +7,20 @@ import {
   passingRouterVariable,
   validateForm,
   errorsValidate,
+  loading,
 } from "../auth-modals"
 
 import LabelControl from "@/components/controls/LabelControl/LabelControl.vue"
 import ButtonControl from "@/components/controls/ButtonControl.vue"
 import HeaderItem from "@/components/HeaderItem/HeaderItem.vue"
+import LoadingItem from "@/components/LoadingItem.vue"
 
 const router = useRouter()
 
 passingRouterVariable(router)
 
 const userFormValues = {
-  name: "",
+  email: "",
   pass: "",
 }
 </script>
@@ -26,15 +28,16 @@ const userFormValues = {
 <template>
   <div class="wrapper">
     <HeaderItem />
+    <LoadingItem v-if="loading" />
     <main class="main">
       <section class="form">
-        <h3 class="form--title">Authrization</h3>
+        <h3 class="form--title">Authorization</h3>
         <LabelControl
-          description="Unique name"
-          inputType="text"
-          placeholder="My-wonderful_name"
-          :error="errorsValidate.name"
-          v-model="userFormValues.name"
+          description="Your email"
+          inputType="email"
+          placeholder="user@email.com"
+          :error="errorsValidate.email"
+          v-model="userFormValues.email"
         />
         <LabelControl
           description="Create password"
@@ -45,7 +48,7 @@ const userFormValues = {
         />
         <div class="form--buttons-inner">
           <ButtonControl
-            @click="validateForm(userFormValues)"
+            @click="validateForm(userFormValues, 'login')"
             text="Login"
             class="form--button"
           />
