@@ -15,6 +15,7 @@ import { changeTabindex, postData } from "@/utils/utils"
 type UserMovie = Record<string, string>
 type Props = {
   toggleAddMovie: Function
+  callToast: Function
 }
 
 const userMovie = ref<UserMovie>({
@@ -34,15 +35,8 @@ function updateList(obj: Record<string, string>) {
   postData(`movies?userName=${localStorage.getItem("userName")}`, obj)
   const moviesStore = useMoviesStore()
   moviesStore.movies.push(obj)
-  model.value = useMoviesStore.name
-  userMovie.value = {
-    userName: `${localStorage.getItem("userName")}`,
-    name: "",
-    genre: "",
-    year: "",
-    length: "",
-    image: "",
-  }
+  model.value = userMovie.value.name
+  props.callToast()
   props.toggleAddMovie()
 }
 

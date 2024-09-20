@@ -2,9 +2,11 @@
 import HeaderItemHome from "@/components/HeaderItem/HeaderItemHome.vue"
 import CardItem from "@/views/CardList/CardItem/CardItem.vue"
 import AddMovie from "@/components/AddMovie/AddMovie.vue"
+import ToastItem from "@/components/ToastItem/ToastItem.vue"
 
 import {
   toggleAddMovie,
+  callToast,
   tabindex,
   addMovieShow,
   moviesStore,
@@ -22,7 +24,14 @@ import {
     <AddMovie
       v-model="filmName"
       :toggleAddMovie="toggleAddMovie"
-      v-show="addMovieShow"
+      :callToast="callToast"
+      v-if="addMovieShow"
+    />
+    <ToastItem
+      v-if="toastIsShow"
+      v-model="toastIsShow"
+      :success="true"
+      :name="filmName"
     />
     <ul class="list">
       <CardItem
@@ -36,9 +45,6 @@ import {
 </template>
 
 <style scoped>
-.wraper {
-}
-
 .list {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));

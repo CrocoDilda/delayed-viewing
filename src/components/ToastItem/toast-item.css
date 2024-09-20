@@ -1,0 +1,79 @@
+.toast {
+  position: fixed;
+  top: 60px;
+  left: -305px;
+  max-width: 300px;
+  background-color: var(--color-main-black);
+  border-radius: 10px;
+  padding: 20px;
+  width: 100%;
+  animation-name: appearance;
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+  z-index: 10;
+}
+
+.visible {
+  animation-name: appearance;
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+}
+
+.hidden {
+  animation-name: disappearance;
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+}
+
+.button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  height: 20px;
+  width: 20px;
+  fill: var(--color-main-green);
+  background-color: transparent;
+}
+
+.title {
+  font-size: 20px;
+  color: var(--color-main-green);
+  margin-bottom: 10px;
+}
+
+.text {
+  display: grid;
+  font-size: 16px;
+}
+
+.success--text {
+  color: var(--color-main-green);
+}
+
+.error--text {
+  color: var(--color-red);
+}
+
+@keyframes appearance {
+  0% {
+    left: -305px;
+    opacity: 0;
+  }
+
+  100% {
+    left: 10px;
+    opacity: 1;
+  }
+}
+
+@keyframes disappearance {
+  0% {
+    left: 10px;
+    opacity: 1;
+  }
+
+  100% {
+    left: -305px;
+    opacity: 0;
+  }
+}

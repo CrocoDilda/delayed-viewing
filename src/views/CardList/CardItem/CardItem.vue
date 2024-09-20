@@ -9,12 +9,12 @@ defineProps<Props>()
 
 <template>
   <li>
-    <button :tabindex="tabindex" class="card">
+    <div :tabindex="tabindex" class="card">
       <img class="card--image" :src="obj.image" alt="movies" />
       <div class="card--description">
-        <p class="card--title">
+        <h3 class="card--title">
           {{ obj.name }}
-        </p>
+        </h3>
         <p class="card--genre">{{ obj.genre }}</p>
         <div class="card--inner">
           <p class="card--year">{{ obj.year }}</p>
@@ -22,7 +22,7 @@ defineProps<Props>()
         </div>
         <p class="card--year">{{ obj.type }}</p>
       </div>
-    </button>
+    </div>
   </li>
 </template>
 
@@ -33,7 +33,7 @@ defineProps<Props>()
   align-items: start;
   text-align: left;
   padding: 10px;
-  border-radius: 12px;
+  border-radius: 20px;
   max-width: 287px;
   transition: background-color 0.2s;
   background-color: var(--color-main-gray);
@@ -50,7 +50,7 @@ defineProps<Props>()
 
 .card--image {
   height: 400px;
-  border-radius: 6px;
+  border-radius: 10px;
   justify-self: center;
   width: 100%;
   object-fit: cover;

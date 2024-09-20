@@ -11,16 +11,17 @@ const moviesStore = useMoviesStore()
 const tabindex = useTabindex()
 const addMovieShow = ref(false)
 
-function showToast() {
-  toastIsShow.value = !toastIsShow.value
-}
-
 function toggleAddMovie() {
   addMovieShow.value = !addMovieShow.value
 }
 
+function callToast() {
+  toastIsShow.value = true
+}
+
 export {
   toggleAddMovie,
+  callToast,
   tabindex,
   addMovieShow,
   moviesStore,
