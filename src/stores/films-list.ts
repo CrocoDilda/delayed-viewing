@@ -1,9 +1,8 @@
 import { defineStore } from "pinia"
-
-type Movie = Record<string, string | boolean>
+import type { UserMovieType } from "@/types/types"
 
 export const useMoviesStore = defineStore("movies", {
   state: () => ({
-    movies: [] as Movie[],
+    movies: [] as UserMovieType[],
   }),
 })

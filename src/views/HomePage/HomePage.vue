@@ -11,7 +11,6 @@ const router = useRouter()
 
 async function getFilms() {
   await updateMovies()
-  console.log(moviesStore.movies)
   const path = `/home/` + (!!moviesStore.movies.length ? "main" : "start")
   goToRoutesPage(router, path, true)
 }

@@ -1,9 +1,10 @@
 import { ref } from "vue"
 import { useApiKey } from "@/stores/api-key"
+import type { UserMovieType } from "@/types/types"
 
 const showInfo = ref<boolean>(false)
 
-const userMovie = ref({
+const userMovie = ref<UserMovieType>({
   userName: `${localStorage.getItem("userName")}`,
   name: "",
   genre: "",
@@ -11,11 +12,10 @@ const userMovie = ref({
   length: "",
   isSeries: false,
   image: "",
+  rating: [{ imdb: "", kp: "" }],
 })
 
 const apiKeyStore = useApiKey()
-
-console.log(apiKeyStore.apiKey)
 
 // инвертирую showInfo
 function changeShowInfo() {
@@ -35,7 +35,7 @@ async function autocomplete(filmName: string) {
     method: "GET",
     headers: {
       accept: "application/json",
-      "X-API-KEY": "0TRXKX0-4QCM482-GQQPR1K-C8Z4MAT",
+      "X-API-KEY": `${apiKeyStore.apiKey}`,
     },
   }
 
@@ -47,11 +47,13 @@ async function autocomplete(filmName: string) {
     .then((response) => {
       const res = response.docs[0]
       userMovie.value.name = res.name
-      userMovie.value.year = res.year
+      userMovie.value.year = `${res.year}`
       userMovie.value.length = res.isSeries ? res.seriesLength : res.movieLength
       userMovie.value.isSeries = res.isSeries
       userMovie.value.image = res.poster.previewUrl
       userMovie.value.genre = genre(res.genres)
+      userMovie.value.rating[0].imdb = res.rating.imdb.toFixed(1)
+      userMovie.value.rating[0].kp = res.rating.kp.toFixed(1)
       console.log(response)
     })
     .catch((err) => console.error(err))

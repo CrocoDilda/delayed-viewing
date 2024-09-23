@@ -13,7 +13,6 @@ const user = ref(localStorage.getItem("userName"))
 onMounted(() => {
   const path: string = user.value ? "home" : "welcome"
   goToRoutesPage(router, `/${path}`, true)
-  console.log(user.value)
 })
 </script>
 

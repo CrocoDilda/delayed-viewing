@@ -3,6 +3,8 @@
 import { useMoviesStore } from "@/stores/films-list"
 import { useTabindex } from "@/stores/tabindex"
 
+import type { UserMovieType } from "@/types/types"
+
 const address = `https://73509f220638bf50.mokky.dev`
 type Movie = Record<string, string>
 
@@ -37,7 +39,7 @@ async function getData(path: string): Promise<Movie[]> {
 }
 
 // функция для отправки данных (в obj передаётся объект, который идёт на сервер)
-async function postData(path: string, obj: Record<string, string | boolean>) {
+async function postData(path: string, obj: UserMovieType) {
   try {
     const res = await fetch(`${address}/${path}`, {
       method: "POST",
@@ -46,9 +48,7 @@ async function postData(path: string, obj: Record<string, string | boolean>) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(obj),
-    })
-      .then((resp) => resp.json())
-      .then((json) => console.log(json))
+    }).then((resp) => resp.json())
   } catch (error) {
     console.error("Ошибка при отправке данных:", error)
   }
@@ -62,7 +62,6 @@ async function updateMovies() {
 
     // Получаем экземпляр хранилища
     const moviesStore = useMoviesStore()
-    console.log(newMovies)
     // Обновляем состояние в хранилище
     moviesStore.$patch({
       movies: newMovies,

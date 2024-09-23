@@ -1,9 +1,11 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from "vue"
+import { onMounted, onUnmounted } from "vue"
 
 import { changeShowInfo, autocomplete, showInfo, userMovie } from "./add-movie"
 
 import { useMoviesStore } from "@/stores/films-list"
+
+import type { UserMovieType } from "@/types/types"
 
 import LabelControl from "../controls/LabelControl/LabelControl.vue"
 import ButtonControl from "../controls/ButtonControl.vue"
@@ -21,7 +23,7 @@ const props = defineProps<Props>()
 
 const model = defineModel<string>()
 
-function updateList(obj: Record<string, string | boolean>) {
+function updateList(obj: UserMovieType) {
   postData(`movies?userName=${localStorage.getItem("userName")}`, obj)
   const moviesStore = useMoviesStore()
   moviesStore.movies.push(obj)
@@ -44,6 +46,7 @@ onUnmounted(() => {
     length: "",
     isSeries: false,
     image: "",
+    rating: [{ imdb: "", kp: "" }],
   }
 })
 </script>

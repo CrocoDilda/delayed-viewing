@@ -1,23 +1,46 @@
 <script setup lang="ts">
+import fallbackImage from "../../../components/icons/clapper-board.svg"
+import IconIMDB from "@/components/icons/IconIMDB.vue"
+import IconKinopoisk from "@/components/icons/IconKinopoisk.vue"
+
+import type { UserMovieType } from "@/types/types"
+
 type Props = {
-  obj: Record<string, string | boolean>
+  obj: UserMovieType
   tabindex: number
 }
 
 defineProps<Props>()
 
-// Импорт fallback-изображения
-import fallbackImage from "../../../components/icons/clapper-board.svg"
-</script>
+// Обработчик ошибки загрузки изображения
+const onImageError = (e: Event) => {
+  if (e.target) {
+    const target = e.target as HTMLImageElement
+    target.src = fallbackImage
+  }
+}
 
+function minToHour(minets: string) {
+  const min = Number(minets)
+  return `${Math.round(min / 60)}h ${min % 60} min`
+}
+</script>
 <template>
   <li>
     <div :tabindex="tabindex" class="card">
+      <div class="card--rating">
+        <p class="card--rating-grades">
+          <IconIMDB class="card--rating-icon" />{{ obj.rating[0].imdb }}
+        </p>
+        <p class="card--rating-grades">
+          <IconKinopoisk class="card--rating-icon" />{{ obj.rating[0].kp }}
+        </p>
+      </div>
       <img
         class="card--image"
         :src="obj.image"
         alt="movies"
-        @error="(e) => (e.target.src = fallbackImage)"
+        @error="onImageError"
       />
       <div class="card--description">
         <h3 class="card--title">{{ obj.name }}</h3>
@@ -27,7 +50,7 @@ import fallbackImage from "../../../components/icons/clapper-board.svg"
           {{
             obj.isSeries
               ? `Series length: ${obj.length} min`
-              : `Movie length: ${obj.length}`
+              : `Movie length: ${minToHour(obj.length)}`
           }}
         </p>
         <p class="card--year">{{ obj.isSeries ? "Series" : "Movie" }}</p>
@@ -37,47 +60,5 @@ import fallbackImage from "../../../components/icons/clapper-board.svg"
 </template>
 
 <style scoped>
-.card {
-  justify-self: center;
-  display: flex;
-  flex-direction: column;
-  align-items: start;
-  text-align: left;
-  padding: 10px;
-  border-radius: 20px;
-  width: 300px;
-  transition: background-color 0.2s;
-  background-color: var(--color-main-gray);
-  color: var(--color-main-white);
-  height: 100%;
-  border: solid 3px var(--color-gray100);
-  &:hover {
-    background-color: var(--color-gray);
-  }
-  &:hover {
-    background-color: var(--color-gray);
-  }
-}
-
-.card--image {
-  height: 400px;
-  border-radius: 10px;
-  justify-self: center;
-  width: 100%;
-  object-fit: cover;
-}
-
-.card--title {
-  font-size: 18px;
-  color: var(--color-main-green);
-  font-weight: 700;
-}
-
-.card--description {
-  display: grid;
-  gap: 15px;
-  padding-top: 15px;
-  font-size: 1rem;
-  height: 100%;
-}
+@import "./card-item.css";
 </style>
