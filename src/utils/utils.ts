@@ -37,7 +37,7 @@ async function getData(path: string): Promise<Movie[]> {
 }
 
 // функция для отправки данных (в obj передаётся объект, который идёт на сервер)
-async function postData(path: string, obj: Record<string, string>) {
+async function postData(path: string, obj: Record<string, string | boolean>) {
   try {
     const res = await fetch(`${address}/${path}`, {
       method: "POST",

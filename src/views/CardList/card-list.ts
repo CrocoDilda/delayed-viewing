@@ -16,7 +16,10 @@ function toggleAddMovie() {
 }
 
 function callToast() {
-  toastIsShow.value = true
+  toastIsShow.value = false
+  setTimeout(() => {
+    toastIsShow.value = true
+  }, 100)
 }
 
 export {

@@ -20,11 +20,11 @@ const className = ref<string>("visible")
 function closeToast() {
   className.value = "hidden"
   setTimeout(() => {
-    model.value = true
+    model.value = false
   }, 1000)
 }
 
-const model = defineModel<boolean>("toastIsShow")
+const model = defineModel<boolean>()
 
 defineProps<Props>()
 

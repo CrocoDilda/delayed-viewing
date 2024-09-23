@@ -27,13 +27,14 @@ const emit = defineEmits(["toggleAddMovie"])
 
 <style scoped>
 .header {
-  position: sticky;
+  position: fixed;
   top: 0;
   display: flex;
   justify-content: space-between;
   background-color: transparent;
   padding: 15px;
   background-color: var(--color-main-black);
+  width: 100vw;
 }
 
 .header--text {

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from "vue"
 
-import { changeShowInfo, showInfo } from "./add-movie"
+import { changeShowInfo, autocomplete, showInfo, userMovie } from "./add-movie"
 
 import { useMoviesStore } from "@/stores/films-list"
 
@@ -12,26 +12,16 @@ import IconInformation from "../icons/IconInformation.vue"
 
 import { changeTabindex, postData } from "@/utils/utils"
 
-type UserMovie = Record<string, string>
 type Props = {
   toggleAddMovie: Function
   callToast: Function
 }
 
-const userMovie = ref<UserMovie>({
-  userName: `${localStorage.getItem("userName")}`,
-  name: "",
-  genre: "",
-  year: "",
-  length: "",
-  image: "",
-})
-
 const props = defineProps<Props>()
 
 const model = defineModel<string>()
 
-function updateList(obj: Record<string, string>) {
+function updateList(obj: Record<string, string | boolean>) {
   postData(`movies?userName=${localStorage.getItem("userName")}`, obj)
   const moviesStore = useMoviesStore()
   moviesStore.movies.push(obj)
@@ -46,6 +36,15 @@ onMounted(() => {
 
 onUnmounted(() => {
   changeTabindex(0)
+  userMovie.value = {
+    userName: `${localStorage.getItem("userName")}`,
+    name: "",
+    genre: "",
+    year: "",
+    length: "",
+    isSeries: false,
+    image: "",
+  }
 })
 </script>
 
@@ -58,13 +57,13 @@ onUnmounted(() => {
         <p class="explanation--description">
           При нажатии на кнопку <b>Autocomplete</b> вы запросите данные по
           названию, указанному в поле <b>"Name"</b>, с удалённой базы данных
-          фильмов. Остальные поля будут автоматически заполнены
-          <span class="explanation--smile">😲</span> . Проверьте корректность
-          введённого названия и полученных данный. Возможно сервис вернул не то,
-          что вы имели ввиду. Так же вы можете вручную заполнить все поля
-          <span class="explanation--smile">🥲</span>. Никакие поля, кроме
-          <b>"Name"</b>, не являются обязательными к заполнению
-          <span class="explanation--smile">🫣</span>.
+          фильмов. Остальные поля будут автоматически заполнены, в том числе и
+          поля карточки фильма. <span class="explanation--smile">😲</span> .
+          Проверьте корректность введённого названия и полученных данный.
+          Возможно сервис вернул не то, что вы имели ввиду. Так же вы можете
+          вручную заполнить все поля <span class="explanation--smile">🥲</span>.
+          Никакие поля, кроме <b>"Name"</b>, не являются обязательными к
+          заполнению <span class="explanation--smile">🫣</span>.
         </p>
       </div>
       <div class="form">
@@ -78,7 +77,11 @@ onUnmounted(() => {
           v-model="userMovie.name"
         />
         <div class="autocomplete">
-          <ButtonControl text="Autocomplete" class="autocomplete--button" />
+          <ButtonControl
+            @click="autocomplete(userMovie.name)"
+            text="Autocomplete"
+            class="autocomplete--button"
+          />
           <button @click="changeShowInfo" class="autocomplete--info">
             <IconInformation class="info" />
           </button>
@@ -101,11 +104,19 @@ onUnmounted(() => {
           inputType="text"
           v-model="userMovie.length"
         />
+
         <LabelControl
           description="Movie poster"
           placeholder="https://kinopoisk-ru/avengers"
-          inputType="text"
+          inputType="pass"
           v-model="userMovie.image"
+        />
+
+        <LabelControl
+          description="Is series"
+          placeholder=""
+          inputType="checkbox"
+          v-model="userMovie.isSeries"
         />
         <ButtonControl
           @click="updateList(userMovie)"

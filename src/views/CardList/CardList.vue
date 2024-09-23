@@ -4,6 +4,8 @@ import CardItem from "@/views/CardList/CardItem/CardItem.vue"
 import AddMovie from "@/components/AddMovie/AddMovie.vue"
 import ToastItem from "@/components/ToastItem/ToastItem.vue"
 
+import { watch } from "vue"
+
 import {
   toggleAddMovie,
   callToast,
@@ -13,6 +15,10 @@ import {
   filmName,
   toastIsShow,
 } from "./card-list"
+
+watch(toastIsShow, () => {
+  console.log("toastIsShow", toastIsShow.value)
+})
 </script>
 
 <template>
@@ -46,6 +52,7 @@ import {
 
 <style scoped>
 .list {
+  padding-top: 75px;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 50px 30px;
