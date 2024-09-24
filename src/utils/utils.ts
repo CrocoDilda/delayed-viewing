@@ -63,6 +63,7 @@ async function updateMovies() {
     // Получаем экземпляр хранилища
     const moviesStore = useMoviesStore()
     // Обновляем состояние в хранилище
+    console.log(newMovies)
     moviesStore.$patch({
       movies: newMovies,
     })

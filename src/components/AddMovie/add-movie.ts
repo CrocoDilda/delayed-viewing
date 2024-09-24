@@ -3,6 +3,10 @@ import { useApiKey } from "@/stores/api-key"
 import type { UserMovieType } from "@/types/types"
 
 const showInfo = ref<boolean>(false)
+const loadingIsShow = ref<boolean>(false)
+const responseItem = ref<number>(0)
+const responseRef = ref<any[]>([])
+const errorFilmName = ref<string>("")
 
 const userMovie = ref<UserMovieType>({
   userName: `${localStorage.getItem("userName")}`,
@@ -29,34 +33,52 @@ function fixedEncodeURIComponent(str: string) {
 }
 
 async function autocomplete(filmName: string) {
-  const urlName = fixedEncodeURIComponent(filmName)
+  if (filmName === "") {
+    errorFilmName.value = "the field must be filled"
+  } else {
+    errorFilmName.value = ""
+    loadingIsShow.value = true
+    const urlName = fixedEncodeURIComponent(filmName)
 
-  const options = {
-    method: "GET",
-    headers: {
-      accept: "application/json",
-      "X-API-KEY": `${apiKeyStore.apiKey}`,
-    },
+    const options = {
+      method: "GET",
+      headers: {
+        accept: "application/json",
+        "X-API-KEY": `${apiKeyStore.apiKey}`,
+      },
+    }
+
+    try {
+      const response = await fetch(
+        `https://api.kinopoisk.dev/v1.4/movie/search?page=1&limit=5&query=${urlName}`,
+        options
+      )
+      const data = await response.json()
+      responseRef.value = data.docs
+      changeResponseItem()
+      console.log(responseRef.value)
+    } catch (err) {
+      console.error(err)
+    } finally {
+      loadingIsShow.value = false
+    }
   }
+}
 
-  await fetch(
-    `https://api.kinopoisk.dev/v1.4/movie/search?page=1&limit=3&query=${urlName}`,
-    options
-  )
-    .then((response) => response.json())
-    .then((response) => {
-      const res = response.docs[0]
-      userMovie.value.name = res.name
-      userMovie.value.year = `${res.year}`
-      userMovie.value.length = res.isSeries ? res.seriesLength : res.movieLength
-      userMovie.value.isSeries = res.isSeries
-      userMovie.value.image = res.poster.previewUrl
-      userMovie.value.genre = genre(res.genres)
-      userMovie.value.rating[0].imdb = res.rating.imdb.toFixed(1)
-      userMovie.value.rating[0].kp = res.rating.kp.toFixed(1)
-      console.log(response)
-    })
-    .catch((err) => console.error(err))
+function changeResponseItem() {
+  const fnRes = responseRef.value[responseItem.value]
+
+  userMovie.value.name = fnRes.name
+  userMovie.value.year = `${fnRes.year}`
+  userMovie.value.length = fnRes.isSeries
+    ? fnRes.seriesLength
+    : fnRes.movieLength
+  userMovie.value.isSeries = fnRes.isSeries
+  userMovie.value.image = fnRes.poster.previewUrl
+  userMovie.value.genre = genre(fnRes.genres)
+  userMovie.value.rating[0].imdb = fnRes.rating.imdb.toFixed(1)
+  userMovie.value.rating[0].kp = fnRes.rating.kp.toFixed(1)
+  responseItem.value === 4 ? (responseItem.value = 0) : responseItem.value++
 }
 
 function genre(arr: { name: string }[]) {
@@ -68,4 +90,12 @@ function genre(arr: { name: string }[]) {
   return text
 }
 
-export { changeShowInfo, autocomplete, showInfo, userMovie }
+export {
+  changeShowInfo,
+  autocomplete,
+  changeResponseItem,
+  showInfo,
+  userMovie,
+  loadingIsShow,
+  errorFilmName,
+}

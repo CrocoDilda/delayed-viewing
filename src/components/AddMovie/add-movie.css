@@ -88,7 +88,7 @@
 .autocomplete {
   display: grid;
   grid-auto-flow: column;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: auto 1fr auto;
   align-items: center;
   gap: 20px;
 }
@@ -110,7 +110,11 @@
 
 .info {
   fill: var(--color-main-green);
-  height: 20px;
+  height: 25px;
+}
+
+.info--small {
+  height: 16px;
 }
 
 .button {

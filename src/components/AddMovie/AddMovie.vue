@@ -1,7 +1,15 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted } from "vue"
 
-import { changeShowInfo, autocomplete, showInfo, userMovie } from "./add-movie"
+import {
+  changeShowInfo,
+  autocomplete,
+  changeResponseItem,
+  showInfo,
+  userMovie,
+  loadingIsShow,
+  errorFilmName,
+} from "./add-movie"
 
 import { useMoviesStore } from "@/stores/films-list"
 
@@ -11,6 +19,8 @@ import LabelControl from "../controls/LabelControl/LabelControl.vue"
 import ButtonControl from "../controls/ButtonControl.vue"
 import IconClose from "../icons/IconClose.vue"
 import IconInformation from "../icons/IconInformation.vue"
+import IconReboot from "../icons/IconReboot.vue"
+import LoadingItem from "../LoadingItem.vue"
 
 import { changeTabindex, postData } from "@/utils/utils"
 
@@ -53,6 +63,7 @@ onUnmounted(() => {
 
 <template>
   <div class="wrapperr">
+    <LoadingItem v-if="loadingIsShow" />
     <div class="background"></div>
     <div class="inner">
       <div v-if="showInfo" class="explanation">
@@ -63,10 +74,12 @@ onUnmounted(() => {
           фильмов. Остальные поля будут автоматически заполнены, в том числе и
           поля карточки фильма. <span class="explanation--smile">😲</span> .
           Проверьте корректность введённого названия и полученных данный.
-          Возможно сервис вернул не то, что вы имели ввиду. Так же вы можете
-          вручную заполнить все поля <span class="explanation--smile">🥲</span>.
-          Никакие поля, кроме <b>"Name"</b>, не являются обязательными к
-          заполнению <span class="explanation--smile">🫣</span>.
+          Возможно сервис вернул не то, что вы имели ввиду. Вы можете нажать на
+          кнопку <IconReboot class="info info--small" />, тем самым поменяв
+          вариант выдачи. Так же вы можете вручную заполнить все поля
+          <span class="explanation--smile">🥲</span>.
+          <!-- Никакие поля, кроме <b>"Name"</b>, не являются обязательными к
+          заполнению <span class="explanation--smile">🫣</span>. -->
         </p>
       </div>
       <div class="form">
@@ -78,8 +91,12 @@ onUnmounted(() => {
           description="Film name*"
           inputType="text"
           v-model="userMovie.name"
+          :error="errorFilmName"
         />
         <div class="autocomplete">
+          <button @click="changeResponseItem" class="autocomplete--info">
+            <IconReboot class="info" />
+          </button>
           <ButtonControl
             @click="autocomplete(userMovie.name)"
             text="Autocomplete"

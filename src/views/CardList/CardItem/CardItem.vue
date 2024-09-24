@@ -28,7 +28,10 @@ function minToHour(minets: string) {
 <template>
   <li>
     <div :tabindex="tabindex" class="card">
-      <div class="card--rating">
+      <div
+        v-if="obj.rating[0].imdb !== '' || obj.rating[0].kp !== ''"
+        class="card--rating"
+      >
         <p class="card--rating-grades">
           <IconIMDB class="card--rating-icon" />{{ obj.rating[0].imdb }}
         </p>
