@@ -5,6 +5,7 @@ import { useTabindex } from "@/stores/tabindex"
 
 const filmName = ref<string>("")
 const toastIsShow = ref<boolean>(false)
+const menuIsShow = ref<boolean>(false)
 
 const moviesStore = useMoviesStore()
 
@@ -22,12 +23,19 @@ function callToast() {
   }, 100)
 }
 
+function handleDocumentClick() {
+  menuIsShow.value = false
+  console.log("function handleDocumentClick", "menuIsShow: ", menuIsShow.value)
+}
+
 export {
   toggleAddMovie,
   callToast,
+  handleDocumentClick,
   tabindex,
   addMovieShow,
   moviesStore,
   filmName,
   toastIsShow,
+  menuIsShow,
 }

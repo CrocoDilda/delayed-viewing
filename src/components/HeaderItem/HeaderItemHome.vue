@@ -35,6 +35,7 @@ const emit = defineEmits(["toggleAddMovie"])
   padding: 15px;
   background-color: var(--color-main-black);
   width: 100vw;
+  z-index: 10;
 }
 
 .header--text {

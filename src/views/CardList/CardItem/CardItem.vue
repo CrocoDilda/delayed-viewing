@@ -1,7 +1,13 @@
 <script setup lang="ts">
-import fallbackImage from "../../../components/icons/clapper-board.svg"
+import { ref } from "vue"
+
 import IconIMDB from "@/components/icons/IconIMDB.vue"
 import IconKinopoisk from "@/components/icons/IconKinopoisk.vue"
+
+import { minToHour, onImageError } from "./card-item"
+
+const boardStyles = ref("")
+const boardTabindex = ref(-1)
 
 import type { UserMovieType } from "@/types/types"
 
@@ -11,33 +17,67 @@ type Props = {
 }
 
 defineProps<Props>()
+const model = defineModel<boolean>()
 
-// Обработчик ошибки загрузки изображения
-const onImageError = (e: Event) => {
-  if (e.target) {
-    const target = e.target as HTMLImageElement
-    target.src = fallbackImage
+const hidden = "card--menu-board_hidden"
+const show = "card--menu-board_show"
+
+function changeBoardStyle() {
+  console.log("this is CardItem: ", model.value)
+  if (boardStyles.value === hidden || boardStyles.value === "") {
+    boardStyles.value = show
+    boardTabindex.value = 0
+  } else if (boardStyles.value === show || model.value === false) {
+    boardStyles.value = hidden
+    boardTabindex.value = -1
   }
-}
-
-function minToHour(minets: string) {
-  const min = Number(minets)
-  return `${Math.round(min / 60)}h ${min % 60} min`
 }
 </script>
 <template>
   <li>
     <div :tabindex="tabindex" class="card">
-      <div
-        v-if="obj.rating[0].imdb !== '' || obj.rating[0].kp !== ''"
-        class="card--rating"
-      >
-        <p class="card--rating-grades">
-          <IconIMDB class="card--rating-icon" />{{ obj.rating[0].imdb }}
-        </p>
-        <p class="card--rating-grades">
-          <IconKinopoisk class="card--rating-icon" />{{ obj.rating[0].kp }}
-        </p>
+      <div class="card--top">
+        <div
+          v-if="obj.rating[0].imdb !== '' || obj.rating[0].kp !== ''"
+          class="card--rating"
+        >
+          <p class="card--top-grades">
+            <IconIMDB class="card--top-icon" />
+            {{ obj.rating[0].imdb === "0.0" ? "--" : obj.rating[0].imdb }}
+          </p>
+          <p class="card--top-grades">
+            <IconKinopoisk class="card--top-icon" />{{
+              obj.rating[0].kp === "0.0" ? "--" : obj.rating[0].kp
+            }}
+          </p>
+        </div>
+        <div class="card--menu">
+          <button
+            @click="changeBoardStyle"
+            :tabindex="tabindex"
+            class="card--menu-button"
+          >
+            <div class="card--point"></div>
+            <div class="card--point"></div>
+            <div class="card--point"></div>
+          </button>
+          <ul :class="`card--menu-board ${boardStyles}`">
+            <li class="card--menu-item">
+              <button
+                @click="console.log('click to button')"
+                :tabindex="boardTabindex"
+                class="card--menu-ivent"
+              >
+                Edit
+              </button>
+            </li>
+            <li class="card--menu-item">
+              <button :tabindex="boardTabindex" class="card--menu-ivent red">
+                Delete
+              </button>
+            </li>
+          </ul>
+        </div>
       </div>
       <img
         class="card--image"
