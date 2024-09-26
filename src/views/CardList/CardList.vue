@@ -10,21 +10,21 @@ import ToastItem from "@/components/ToastItem/ToastItem.vue"
 import {
   toggleAddMovie,
   callToast,
-  handleDocumentClick,
+  reCreateListOfAllMenus,
   tabindex,
   addMovieShow,
   moviesStore,
   filmName,
   toastIsShow,
-  menuIsShow,
+  listOfAllMenus,
 } from "./card-list"
 
 onMounted(() => {
-  document.addEventListener("click", handleDocumentClick)
+  document.addEventListener("click", reCreateListOfAllMenus)
 })
 
 onBeforeUnmount(() => {
-  document.removeEventListener("click", handleDocumentClick)
+  document.removeEventListener("click", reCreateListOfAllMenus)
 })
 </script>
 
@@ -52,7 +52,7 @@ onBeforeUnmount(() => {
         :key="id"
         :obj="movie"
         :tabindex="tabindex.tabindexVar"
-        v-model="menuIsShow"
+        v-model="listOfAllMenus[id]"
       />
     </ul>
     <FooterItem :totalMovies="moviesStore.movies.length" />

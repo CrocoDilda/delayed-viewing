@@ -115,12 +115,6 @@
   animation-fill-mode: forwards;
 }
 
-.card--menu-board_hidden {
-  animation-name: hidden;
-  animation-duration: 300ms;
-  animation-fill-mode: forwards;
-}
-
 .card--menu-ivent {
   background-color: transparent;
   padding: 3px;
@@ -174,20 +168,5 @@
   100% {
     opacity: 1;
     width: 120px;
-  }
-}
-
-@keyframes hidden {
-  0% {
-    opacity: 1;
-    width: 120px;
-  }
-
-  50% {
-    opacity: 0;
-  }
-
-  100% {
-    width: 60px;
   }
 }

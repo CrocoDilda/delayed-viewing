@@ -5,12 +5,19 @@ import { useTabindex } from "@/stores/tabindex"
 
 const filmName = ref<string>("")
 const toastIsShow = ref<boolean>(false)
-const menuIsShow = ref<boolean>(false)
+const listOfAllMenus = ref<Record<string, boolean>>({})
 
 const moviesStore = useMoviesStore()
 
 const tabindex = useTabindex()
 const addMovieShow = ref(false)
+
+function reCreateListOfAllMenus() {
+  for (let i = 0; i < moviesStore.movies.length; i++) {
+    listOfAllMenus.value[i] = false
+  }
+}
+reCreateListOfAllMenus()
 
 function toggleAddMovie() {
   addMovieShow.value = !addMovieShow.value
@@ -23,19 +30,14 @@ function callToast() {
   }, 100)
 }
 
-function handleDocumentClick() {
-  menuIsShow.value = false
-  console.log("function handleDocumentClick", "menuIsShow: ", menuIsShow.value)
-}
-
 export {
   toggleAddMovie,
   callToast,
-  handleDocumentClick,
+  reCreateListOfAllMenus,
   tabindex,
   addMovieShow,
   moviesStore,
   filmName,
   toastIsShow,
-  menuIsShow,
+  listOfAllMenus,
 }

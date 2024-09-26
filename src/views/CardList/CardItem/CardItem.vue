@@ -17,18 +17,20 @@ type Props = {
 }
 
 defineProps<Props>()
+
 const model = defineModel<boolean>()
 
-const hidden = "card--menu-board_hidden"
 const show = "card--menu-board_show"
 
 function changeBoardStyle() {
-  console.log("this is CardItem: ", model.value)
-  if (boardStyles.value === hidden || boardStyles.value === "") {
-    boardStyles.value = show
-    boardTabindex.value = 0
-  } else if (boardStyles.value === show || model.value === false) {
-    boardStyles.value = hidden
+  if (model.value === false || boardStyles.value === "") {
+    setTimeout(() => {
+      model.value = true
+      boardStyles.value = show
+      boardTabindex.value = 0
+    }, 10)
+  } else if (model.value === true) {
+    boardStyles.value = ""
     boardTabindex.value = -1
   }
 }
@@ -61,7 +63,7 @@ function changeBoardStyle() {
             <div class="card--point"></div>
             <div class="card--point"></div>
           </button>
-          <ul :class="`card--menu-board ${boardStyles}`">
+          <ul v-show="model" :class="`card--menu-board ${boardStyles}`">
             <li class="card--menu-item">
               <button
                 @click="console.log('click to button')"
