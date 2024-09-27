@@ -1,6 +1,12 @@
 import { ref } from "vue"
+
 import { useApiKey } from "@/stores/api-key"
+import { useToastStore } from "@/stores/toast-data"
+
 import type { UserMovieType } from "@/types/types"
+
+const apiKeyStore = useApiKey()
+const toastStore = useToastStore()
 
 const showInfo = ref<boolean>(false)
 const loadingIsShow = ref<boolean>(false)
@@ -19,8 +25,6 @@ const userMovie = ref<UserMovieType>({
   rating: [{ imdb: "", kp: "" }],
 })
 
-const apiKeyStore = useApiKey()
-
 // инвертирую showInfo
 function changeShowInfo() {
   showInfo.value = !showInfo.value
@@ -30,6 +34,14 @@ function fixedEncodeURIComponent(str: string) {
   return encodeURIComponent(str).replace(/[!'()*]/g, function (c) {
     return "%" + c.charCodeAt(0).toString(16)
   })
+}
+
+function callToastError() {
+  toastStore.toastIsShow = true
+  toastStore.toastSuccess = false
+  toastStore.filmName = userMovie.value.name
+  toastStore.errorMessage = `Movie with this title not found`
+  toastStore.callToast()
 }
 
 async function autocomplete(filmName: string) {
@@ -59,6 +71,7 @@ async function autocomplete(filmName: string) {
       console.log(responseRef.value)
     } catch (err) {
       console.error(err)
+      callToastError()
     } finally {
       loadingIsShow.value = false
     }

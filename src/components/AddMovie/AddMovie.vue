@@ -12,6 +12,7 @@ import {
 } from "./add-movie"
 
 import { useMoviesStore } from "@/stores/films-list"
+import { useToastStore } from "@/stores/toast-data"
 
 import type { UserMovieType } from "@/types/types"
 
@@ -26,19 +27,23 @@ import { changeTabindex, postData } from "@/utils/utils"
 
 type Props = {
   toggleAddMovie: Function
-  callToast: Function
+  nextPage?: Function
 }
 
 const props = defineProps<Props>()
 
-const model = defineModel<string>()
+const toastStore = useToastStore()
 
 function updateList(obj: UserMovieType) {
   postData(`movies?userName=${localStorage.getItem("userName")}`, obj)
   const moviesStore = useMoviesStore()
   moviesStore.movies.push(obj)
-  model.value = userMovie.value.name
-  props.callToast()
+  toastStore.filmName = userMovie.value.name
+  toastStore.callToast()
+  //   Эта функция нужна для перехода на CardList из GetStart при нажатии на кнопку "Add movie"
+  if (props.nextPage) {
+    props.nextPage()
+  }
   props.toggleAddMovie()
 }
 

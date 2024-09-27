@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { onMounted, onBeforeUnmount } from "vue"
 
+import { useToastStore } from "@/stores/toast-data"
+
 import HeaderItemHome from "@/components/HeaderItem/HeaderItemHome.vue"
 import FooterItem from "@/components/FooterItem/FooterItem.vue"
 import CardItem from "@/views/CardList/CardItem/CardItem.vue"
@@ -9,15 +11,14 @@ import ToastItem from "@/components/ToastItem/ToastItem.vue"
 
 import {
   toggleAddMovie,
-  callToast,
   reCreateListOfAllMenus,
   tabindex,
   addMovieShow,
   moviesStore,
-  filmName,
-  toastIsShow,
   listOfAllMenus,
 } from "./card-list"
+
+const toastStore = useToastStore()
 
 onMounted(() => {
   document.addEventListener("click", reCreateListOfAllMenus)
@@ -34,18 +35,8 @@ onBeforeUnmount(() => {
       :tabindex="tabindex.tabindexVar"
       @toggleAddMovie="toggleAddMovie"
     />
-    <AddMovie
-      v-model="filmName"
-      :toggleAddMovie="toggleAddMovie"
-      :callToast="callToast"
-      v-if="addMovieShow"
-    />
-    <ToastItem
-      v-if="toastIsShow"
-      v-model="toastIsShow"
-      :success="true"
-      :name="filmName"
-    />
+    <AddMovie v-if="addMovieShow" :toggleAddMovie="toggleAddMovie" />
+    <ToastItem v-if="toastStore.toastIsShow" />
     <ul class="list">
       <CardItem
         v-for="(movie, id) in moviesStore.movies"
@@ -55,12 +46,14 @@ onBeforeUnmount(() => {
         v-model="listOfAllMenus[id]"
       />
     </ul>
-    <FooterItem :totalMovies="moviesStore.movies.length" />
+    <FooterItem class="footer" :totalMovies="moviesStore.movies.length" />
   </div>
 </template>
 
 <style scoped>
 .wrapper {
+  display: grid;
+  grid-template-rows: 1fr auto;
   overflow-x: hidden;
 }
 
@@ -72,5 +65,9 @@ onBeforeUnmount(() => {
   justify-items: center;
   overflow-x: hidden;
   overflow-y: auto;
+}
+
+.footer {
+  align-self: end;
 }
 </style>

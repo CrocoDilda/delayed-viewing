@@ -1,32 +1,25 @@
 <script setup lang="ts">
-import IconClose from "../icons/IconClose.vue"
 import { ref } from "vue"
 
-// Пример вызова компонента
-//<ToastItem
-//     v-if="toastIsShow"
-//     v-model:toastIsShow="toastIsShow"
-//     :success="true"
-//     name="Konosuba"
-//   />
+import { useToastStore } from "@/stores/toast-data"
 
-type Props = {
-  name: string
-  success: boolean
-}
+import IconClose from "../icons/IconClose.vue"
+
+const toastStore = useToastStore()
+
+console.log(toastStore.filmName)
 
 const className = ref<string>("visible")
 
 function closeToast() {
   className.value = "hidden"
   setTimeout(() => {
-    model.value = false
+    toastStore.filmName = ""
+    toastStore.toastSuccess = true
+    toastStore.toastIsShow = false
+    toastStore.errorMessage = ""
   }, 1000)
 }
-
-const model = defineModel<boolean>()
-
-defineProps<Props>()
 
 setTimeout(() => {
   closeToast()
@@ -37,7 +30,7 @@ setTimeout(() => {
   <div
     :style="{
       border: `3px solid var(${
-        success ? `--color-main-green` : `--color-red`
+        toastStore.toastSuccess ? `--color-main-green` : `--color-red`
       })`,
     }"
     :class="`toast ${className}`"
@@ -45,20 +38,29 @@ setTimeout(() => {
     <button @click="closeToast" class="button">
       <IconClose
         :style="{
-          fill: `var(${success ? `--color-main-green` : `--color-red`})`,
+          fill: `var(${
+            toastStore.toastSuccess ? `--color-main-green` : `--color-red`
+          })`,
         }"
       />
     </button>
-    <div v-if="success" class="success">
+    <div v-if="toastStore.toastSuccess" class="success">
       <h3 class="title success--text">Success!</h3>
       <p class="text">
-        <span class="success--text">{{ name }}</span> added to list!
+        <span class="success--text">{{ toastStore.filmName }}</span> added to
+        list!
       </p>
     </div>
     <div v-else class="error">
       <h3 class="title error--text">Error</h3>
       <p class="text">
-        <span class="error--text">{{ name }}</span> not added to the list
+        <span class="error--text">{{ toastStore.filmName }}</span>
+        {{
+          toastStore.errorMessage === ""
+            ? `not
+        added to the list`
+            : toastStore.errorMessage
+        }}
       </p>
     </div>
   </div>

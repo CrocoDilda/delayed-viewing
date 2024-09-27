@@ -4,33 +4,33 @@ import { ref } from "vue"
 import { useRouter } from "vue-router"
 
 import { useTabindex } from "@/stores/tabindex"
+import { useToastStore } from "@/stores/toast-data"
 
 import { goToRoutesPage } from "@/utils/utils"
 
 import ButtonControl from "@/components/controls/ButtonControl.vue"
 import HeaderItem from "@/components/HeaderItem/HeaderItem.vue"
 import AddMovie from "@/components/AddMovie/AddMovie.vue"
+import ToastItem from "@/components/ToastItem/ToastItem.vue"
 
 const addMovieShow = ref<boolean>(false)
 const tabindex = useTabindex()
+const toastStore = useToastStore()
 const router = useRouter()
 
-function toggleAddMovie() {
-  if (addMovieShow.value) {
-    goToRoutesPage(router, `/home/main`, true)
-  }
-  addMovieShow.value = !addMovieShow.value
-}
+const toggleAddMovie = () => (addMovieShow.value = !addMovieShow.value)
+const filmAdded = () => goToRoutesPage(router, `/home/main`, true)
 </script>
 
 <template>
   <div class="wrapper">
+    <HeaderItem />
     <AddMovie
-      :updateList="toggleAddMovie"
       v-if="addMovieShow"
       :toggleAddMovie="toggleAddMovie"
+      :nextPage="filmAdded"
     />
-    <HeaderItem />
+    <ToastItem v-if="toastStore.toastIsShow" />
     <div class="inner">
       <h2 class="title">
         В вашей коллекции пока пусто 😞 <br />
