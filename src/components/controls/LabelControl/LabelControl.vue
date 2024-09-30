@@ -16,6 +16,7 @@ const model = defineModel<string | boolean | number>()
 
 const props = defineProps<Props>()
 const inputTypeRef = ref(props.inputType)
+const inputValue = ref("")
 
 function toggleInputType() {
   inputTypeRef.value = inputTypeRef.value === "password" ? "text" : "password"
@@ -34,14 +35,23 @@ function toggleInputType() {
     <span class="checkmark"></span>
   </label>
 
-  <label v-else class="label">
+  <label v-if="inputType === 'text' || inputType === 'email'" class="label">
     <div class="label--inner">
       <p class="labe--description">{{ description }}</p>
-      <button
-        v-if="inputType === 'password'"
-        class="label--show-hide"
-        @click="toggleInputType"
-      >
+    </div>
+    <input
+      class="label--input"
+      :type="inputTypeRef"
+      :placeholder="placeholder"
+      v-model="model"
+    />
+    <p class="label--invalid">{{ error }}</p>
+  </label>
+
+  <label v-if="inputType === 'password'" class="label">
+    <div class="label--inner">
+      <p class="labe--description">{{ description }}</p>
+      <button class="label--show-hide" @click="toggleInputType">
         <PassShow v-show="inputTypeRef === 'password'" />
         <PassHidden v-show="inputTypeRef === 'text'" />
       </button>
@@ -50,7 +60,8 @@ function toggleInputType() {
       class="label--input"
       :type="inputTypeRef"
       :placeholder="placeholder"
-      v-model="model"
+      @input="model = inputValue"
+      v-model="inputValue"
     />
     <p class="label--invalid">{{ error }}</p>
   </label>

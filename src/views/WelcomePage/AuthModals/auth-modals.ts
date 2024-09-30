@@ -136,8 +136,13 @@ async function registerAndAuthorizeUser(
 
     goToRoutesPage(routerInstance, "/home", true)
   } catch (error) {
-    errorsValidate.value.email = "This email is taken"
-    console.log("Ошибка при регистрации:", error)
+    if (path === "register") {
+      errorsValidate.value.email = "This email is taken"
+      console.log("Ошибка при регистрации:", error)
+    } else {
+      errorsValidate.value.email = "Сheck the correctness of the entered data"
+      console.log("Ошибка при входе:", error)
+    }
   } finally {
     loading.value = false
   }

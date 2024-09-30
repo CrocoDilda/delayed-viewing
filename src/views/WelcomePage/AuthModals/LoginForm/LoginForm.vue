@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router"
 
-import { goToRoutesPage } from "@/utils/utils"
-
 import {
   passingRouterVariable,
   validateForm,
