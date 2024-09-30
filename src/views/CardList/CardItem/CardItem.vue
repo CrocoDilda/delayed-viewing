@@ -5,18 +5,19 @@ import IconIMDB from "@/components/icons/IconIMDB.vue"
 import IconKinopoisk from "@/components/icons/IconKinopoisk.vue"
 
 import { minToHour, onImageError } from "./card-item"
+import { deleteMovie, updateMovies } from "@/utils/utils"
 
 const boardStyles = ref("")
 const boardTabindex = ref(-1)
 
-import type { UserMovieType } from "@/types/types"
+import type { ServerMovieType } from "@/types/types"
 
 type Props = {
-  obj: UserMovieType
+  obj: ServerMovieType
   tabindex: number
 }
 
-defineProps<Props>()
+const props = defineProps<Props>()
 
 const model = defineModel<boolean>()
 
@@ -34,22 +35,27 @@ function changeBoardStyle() {
     boardTabindex.value = -1
   }
 }
+
+async function clickDelete() {
+  await deleteMovie("movies", props.obj.id, props.obj.name)
+  await updateMovies()
+}
 </script>
 <template>
   <li>
     <div :tabindex="tabindex" class="card">
       <div class="card--top">
         <div
-          v-if="obj.rating[0].imdb !== '' || obj.rating[0].kp !== ''"
+          v-if="obj.rating.imdb !== '' || obj.rating.kp !== ''"
           class="card--rating"
         >
           <p class="card--top-grades">
             <IconIMDB class="card--top-icon" />
-            {{ obj.rating[0].imdb === "0.0" ? "--" : obj.rating[0].imdb }}
+            {{ obj.rating.imdb === "0.0" ? "--" : obj.rating.imdb }}
           </p>
           <p class="card--top-grades">
             <IconKinopoisk class="card--top-icon" />{{
-              obj.rating[0].kp === "0.0" ? "--" : obj.rating[0].kp
+              obj.rating.kp === "0.0" ? "--" : obj.rating.kp
             }}
           </p>
         </div>
@@ -64,7 +70,7 @@ function changeBoardStyle() {
             <div class="card--point"></div>
           </button>
           <ul v-show="model" :class="`card--menu-board ${boardStyles}`">
-            <li class="card--menu-item">
+            <!-- <li class="card--menu-item">
               <button
                 @click="console.log('click to button')"
                 :tabindex="boardTabindex"
@@ -72,9 +78,13 @@ function changeBoardStyle() {
               >
                 Edit
               </button>
-            </li>
+            </li> -->
             <li class="card--menu-item">
-              <button :tabindex="boardTabindex" class="card--menu-ivent red">
+              <button
+                @click="clickDelete"
+                :tabindex="boardTabindex"
+                class="card--menu-ivent red"
+              >
                 Delete
               </button>
             </li>

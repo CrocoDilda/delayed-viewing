@@ -7,8 +7,6 @@ import IconClose from "../icons/IconClose.vue"
 
 const toastStore = useToastStore()
 
-console.log(toastStore.filmName)
-
 const className = ref<string>("visible")
 
 function closeToast() {
@@ -18,6 +16,7 @@ function closeToast() {
     toastStore.toastSuccess = true
     toastStore.toastIsShow = false
     toastStore.errorMessage = ""
+    toastStore.message = ""
   }, 1000)
 }
 
@@ -47,8 +46,13 @@ setTimeout(() => {
     <div v-if="toastStore.toastSuccess" class="success">
       <h3 class="title success--text">Success!</h3>
       <p class="text">
-        <span class="success--text">{{ toastStore.filmName }}</span> added to
-        list!
+        <span class="success--text">{{ toastStore.filmName }}</span>
+        {{
+          toastStore.message === ""
+            ? `added to
+        list!`
+            : toastStore.message
+        }}
       </p>
     </div>
     <div v-else class="error">

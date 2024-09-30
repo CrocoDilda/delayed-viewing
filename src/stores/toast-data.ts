@@ -6,6 +6,7 @@ export const useToastStore = defineStore("toastData", {
     toastSuccess: true,
     toastIsShow: false,
     errorMessage: "",
+    message: "",
   }),
   actions: {
     callToast() {

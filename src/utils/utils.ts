@@ -2,6 +2,7 @@
 
 import { useMoviesStore } from "@/stores/films-list"
 import { useTabindex } from "@/stores/tabindex"
+import { useToastStore } from "@/stores/toast-data"
 
 import type { UserMovieType } from "@/types/types"
 
@@ -54,19 +55,43 @@ async function postData(path: string, obj: UserMovieType) {
   }
 }
 
+async function deleteMovie(path: string, id: number, fnFilmName: string) {
+  const toastStore = useToastStore()
+  try {
+    await fetch(`${address}/${path}/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
+
+    toastStore.filmName = fnFilmName
+    toastStore.message = "was removed"
+    toastStore.callToast()
+  } catch (error) {
+    console.error("Ошибка при удалении данных:", error)
+    toastStore.filmName = fnFilmName
+    toastStore.errorMessage = "not removed"
+    toastStore.toastSuccess = false
+    toastStore.callToast()
+  }
+}
+
 async function updateMovies() {
   try {
-    const newMovies = await getData(
+    const newMoviesList = await getData(
       `movies?userName=${localStorage.getItem("userName")}`
     ) // Вызов импортированной функции
 
     // Получаем экземпляр хранилища
     const moviesStore = useMoviesStore()
     // Обновляем состояние в хранилище
-    console.log(newMovies)
-    moviesStore.$patch({
-      movies: newMovies,
+    console.log(newMoviesList)
+    await moviesStore.$patch({
+      movies: newMoviesList,
     })
+
+    console.log(moviesStore.movies)
   } catch (error) {
     console.error("Failed to fetch movies:", error)
   }
@@ -82,6 +107,7 @@ export {
   goToRoutesPage,
   getData,
   postData,
+  deleteMovie,
   updateMovies,
   changeTabindex,
   address,

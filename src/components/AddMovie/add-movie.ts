@@ -22,7 +22,7 @@ const userMovie = ref<UserMovieType>({
   length: "",
   isSeries: false,
   image: "",
-  rating: [{ imdb: "", kp: "" }],
+  rating: { imdb: "", kp: "" },
 })
 
 // инвертирую showInfo
@@ -89,8 +89,8 @@ function changeResponseItem() {
   userMovie.value.isSeries = fnRes.isSeries
   userMovie.value.image = fnRes.poster.previewUrl
   userMovie.value.genre = genre(fnRes.genres)
-  userMovie.value.rating[0].imdb = fnRes.rating.imdb.toFixed(1)
-  userMovie.value.rating[0].kp = fnRes.rating.kp.toFixed(1)
+  userMovie.value.rating.imdb = fnRes.rating.imdb.toFixed(1)
+  userMovie.value.rating.kp = fnRes.rating.kp.toFixed(1)
   responseItem.value === 4 ? (responseItem.value = 0) : responseItem.value++
 }
 

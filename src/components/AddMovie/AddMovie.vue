@@ -11,7 +11,7 @@ import {
   errorFilmName,
 } from "./add-movie"
 
-import { useMoviesStore } from "@/stores/films-list"
+// import { useMoviesStore } from "@/stores/films-list"
 import { useToastStore } from "@/stores/toast-data"
 
 import type { UserMovieType } from "@/types/types"
@@ -23,7 +23,7 @@ import IconInformation from "../icons/IconInformation.vue"
 import IconReboot from "../icons/IconReboot.vue"
 import LoadingItem from "../LoadingItem.vue"
 
-import { changeTabindex, postData } from "@/utils/utils"
+import { changeTabindex, postData, updateMovies } from "@/utils/utils"
 
 type Props = {
   toggleAddMovie: Function
@@ -34,10 +34,11 @@ const props = defineProps<Props>()
 
 const toastStore = useToastStore()
 
-function updateList(obj: UserMovieType) {
-  postData(`movies?userName=${localStorage.getItem("userName")}`, obj)
-  const moviesStore = useMoviesStore()
-  moviesStore.movies.push(obj)
+async function updateList(obj: UserMovieType) {
+  await postData(`movies?userName=${localStorage.getItem("userName")}`, obj)
+  //   const moviesStore = useMoviesStore()
+  //   moviesStore.movies.push(obj)
+  updateMovies()
   toastStore.filmName = userMovie.value.name
   toastStore.callToast()
   //   Эта функция нужна для перехода на CardList из GetStart при нажатии на кнопку "Add movie"
@@ -61,7 +62,7 @@ onUnmounted(() => {
     length: "",
     isSeries: false,
     image: "",
-    rating: [{ imdb: "", kp: "" }],
+    rating: { imdb: "", kp: "" },
   }
 })
 </script>

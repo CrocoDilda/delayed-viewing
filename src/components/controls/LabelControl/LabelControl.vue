@@ -12,7 +12,7 @@ type Props = {
   error?: string | null
 }
 
-const model = defineModel<string | boolean>()
+const model = defineModel<string | boolean | number>()
 
 const props = defineProps<Props>()
 const inputTypeRef = ref(props.inputType)
@@ -20,7 +20,6 @@ const inputTypeRef = ref(props.inputType)
 function toggleInputType() {
   inputTypeRef.value = inputTypeRef.value === "password" ? "text" : "password"
 }
-localStorage
 </script>
 
 <template>
