@@ -61,7 +61,7 @@ onUnmounted(() => {
 <template>
   <div class="wrapperr">
     <LoadingItem v-if="loadingIsShow" />
-    <div class="background"></div>
+    <div @click="toggleAddMovie()" class="background"></div>
     <div class="inner">
       <div v-if="showInfo" class="explanation">
         <div @click="changeShowInfo" class="explanation--background"></div>

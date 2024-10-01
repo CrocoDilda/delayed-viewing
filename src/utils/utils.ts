@@ -50,6 +50,7 @@ async function getData(path: string): Promise<Movie[]> {
     return data
   } catch (error) {
     console.error("Ошибка при получении данных:", error)
+    toastError("", "Server error. Try again later.")
     throw error
   }
 }
@@ -67,10 +68,10 @@ async function postData(path: string, obj: UserMovieType) {
     }).then((resp) => resp.json())
     console.log(obj)
     console.log(res)
-    if (res.statusCode === 200 || res.statusCode === 201) {
-      toastSuccess(obj.name, "added to list!")
-    } else {
+    if (res.statusCode === 500) {
       toastError(obj.name, "not added. Server error. Try again later.")
+    } else {
+      toastSuccess(obj.name, "added to list!")
     }
   } catch (error) {
     console.error("Ошибка при отправке данных:", error)

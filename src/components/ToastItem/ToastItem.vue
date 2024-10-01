@@ -6,23 +6,6 @@ import { useToastStore } from "@/stores/toast-data"
 import IconClose from "../icons/IconClose.vue"
 
 const toastStore = useToastStore()
-
-const className = ref<string>("visible")
-
-function closeToast() {
-  className.value = "hidden"
-  setTimeout(() => {
-    toastStore.filmName = ""
-    toastStore.toastSuccess = true
-    toastStore.toastIsShow = false
-    toastStore.errorMessage = ""
-    toastStore.message = ""
-  }, 1000)
-}
-
-setTimeout(() => {
-  closeToast()
-}, 4000)
 </script>
 
 <template>
@@ -32,9 +15,9 @@ setTimeout(() => {
         toastStore.toastSuccess ? `--color-main-green` : `--color-red`
       })`,
     }"
-    :class="`toast ${className}`"
+    :class="`toast ${toastStore.className}`"
   >
-    <button @click="closeToast" class="button">
+    <button @click="toastStore.closeToast" class="button">
       <IconClose
         :style="{
           fill: `var(${
