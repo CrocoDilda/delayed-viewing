@@ -58,7 +58,7 @@ onBeforeUnmount(() => {
 }
 
 .list {
-  padding: 80px 10px 0 10px;
+  padding: 80px 10px 20px 10px;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 50px 30px;
@@ -69,5 +69,11 @@ onBeforeUnmount(() => {
 
 .footer {
   align-self: end;
+}
+
+@media (max-width: 670px) {
+  .list {
+    gap: 20px;
+  }
 }
 </style>

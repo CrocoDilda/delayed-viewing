@@ -18,6 +18,21 @@ function goToRoutesPage(router: any, views: string, isReplace?: boolean) {
   }
 }
 
+function toastSuccess(name: string, message: string) {
+  const toastStore = useToastStore()
+  toastStore.filmName = name
+  toastStore.message = message
+  toastStore.callToast()
+}
+
+function toastError(name: string, errorMessage: string) {
+  const toastStore = useToastStore()
+  toastStore.filmName = name
+  toastStore.errorMessage = errorMessage
+  toastStore.toastSuccess = false
+  toastStore.callToast()
+}
+
 // функция для получения данных
 async function getData(path: string): Promise<Movie[]> {
   try {
@@ -50,6 +65,13 @@ async function postData(path: string, obj: UserMovieType) {
       },
       body: JSON.stringify(obj),
     }).then((resp) => resp.json())
+    console.log(obj)
+    console.log(res)
+    if (res.statusCode === 200 || res.statusCode === 201) {
+      toastSuccess(obj.name, "added to list!")
+    } else {
+      toastError(obj.name, "not added. Server error. Try again later.")
+    }
   } catch (error) {
     console.error("Ошибка при отправке данных:", error)
   }
@@ -64,16 +86,10 @@ async function deleteMovie(path: string, id: number, fnFilmName: string) {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     })
-
-    toastStore.filmName = fnFilmName
-    toastStore.message = "was removed"
-    toastStore.callToast()
+    toastSuccess(fnFilmName, "was removed")
   } catch (error) {
     console.error("Ошибка при удалении данных:", error)
-    toastStore.filmName = fnFilmName
-    toastStore.errorMessage = "not removed"
-    toastStore.toastSuccess = false
-    toastStore.callToast()
+    toastError(fnFilmName, "not removed")
   }
 }
 

@@ -11,9 +11,6 @@ import {
   errorFilmName,
 } from "./add-movie"
 
-// import { useMoviesStore } from "@/stores/films-list"
-import { useToastStore } from "@/stores/toast-data"
-
 import type { UserMovieType } from "@/types/types"
 
 import LabelControl from "../controls/LabelControl/LabelControl.vue"
@@ -32,15 +29,9 @@ type Props = {
 
 const props = defineProps<Props>()
 
-const toastStore = useToastStore()
-
 async function updateList(obj: UserMovieType) {
   await postData(`movies?userName=${localStorage.getItem("userName")}`, obj)
-  //   const moviesStore = useMoviesStore()
-  //   moviesStore.movies.push(obj)
   updateMovies()
-  toastStore.filmName = userMovie.value.name
-  toastStore.callToast()
   //   Эта функция нужна для перехода на CardList из GetStart при нажатии на кнопку "Add movie"
   if (props.nextPage) {
     props.nextPage()
@@ -137,7 +128,7 @@ onUnmounted(() => {
         <LabelControl
           description="Movie poster"
           placeholder="https://kinopoisk-ru/avengers"
-          inputType="pass"
+          inputType="text"
           v-model="userMovie.image"
         />
 

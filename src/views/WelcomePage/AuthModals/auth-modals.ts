@@ -56,7 +56,6 @@ function validateEmail(email: string): string | null {
 // Функция валидации формы
 function validateForm(obj: Record<string, string>, ivent: string) {
   let falseValidate = false
-  console.log(ivent)
   // Проходим по всем полям формы
   for (const key in obj) {
     let item: string | null = null
@@ -104,7 +103,6 @@ function validateForm(obj: Record<string, string>, ivent: string) {
         email: obj.email,
         password: obj.pass,
       }
-      console.log(validObj)
       registerAndAuthorizeUser(validObj, "auth")
     }
   }
@@ -131,8 +129,6 @@ async function registerAndAuthorizeUser(
 
     localStorage.setItem("userName", data.data.fullName)
     localStorage.setItem("token", token)
-
-    console.log(data)
 
     goToRoutesPage(routerInstance, "/home", true)
   } catch (error) {

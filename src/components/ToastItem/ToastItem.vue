@@ -47,12 +47,7 @@ setTimeout(() => {
       <h3 class="title success--text">Success!</h3>
       <p class="text">
         <span class="success--text">{{ toastStore.filmName }}</span>
-        {{
-          toastStore.message === ""
-            ? `added to
-        list!`
-            : toastStore.message
-        }}
+        {{ toastStore.message }}
       </p>
     </div>
     <div v-else class="error">

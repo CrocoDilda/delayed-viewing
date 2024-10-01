@@ -23,7 +23,7 @@ const appName = inject("appName")
 }
 
 .header--text {
-  font-size: 28px;
+  font-size: 1.75rem;
   color: var(--color-gray);
 }
 </style>
