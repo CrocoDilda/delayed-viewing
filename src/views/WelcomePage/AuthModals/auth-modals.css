@@ -56,3 +56,17 @@
 .form--error {
   color: var(--color-red);
 }
+
+@media (max-width: 450px) {
+  .main {
+    padding: 10px;
+  }
+
+  .form {
+    padding: 20px;
+  }
+
+  .form--button {
+    padding: 10px;
+  }
+}
