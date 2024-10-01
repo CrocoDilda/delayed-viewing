@@ -1,33 +1,27 @@
-# delayed-viewing
+# Delayed Viewing
 
-This template should help get you started developing with Vue 3 in Vite.
+Это веб-приложение создано в первую очередь для добавления в портфолио, но также предназначено для личного использования как удобный список фильмов, которые пользователь хочет посмотреть.
 
-## Recommended IDE Setup
+### Стек технологий
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+- **Vue 3** с использованием **Composition API** для улучшенной гибкости и читаемости кода
+- **TypeScript** для обеспечения статической типизации и повышения надежности приложения
+- Внешний сервис [**mokky.dev**](https://mokky.dev) выступает в роли бэкенда для хранения данных о фильмах
+- **API Кинопоиска** для автозаполнения информации о фильмах, включая постеры, описание и рейтинг
+- **Pinia** для эффективного управления состоянием приложения
+- **Vue router** для маршрутизации и навигации между страницами
 
-## Type Support for `.vue` Imports in TS
+### Основной функционал
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+- **Добавление фильмов**: Введите название фильма, нажмите кнопку **autocomplete** и приложение автоматически заполнит его данные через API Кинопоиска.
+- **Смена варианта выдачи**: Слева от **autocomplete** вы найдёте кнопку со стрелочками, которая позволяет поменять вариант выдачи, если текущий вас неустроил.
+- **Адаптивный дизайн**: Приложение оптимизировано для работы как на компьютерах, так и на мобильных устройствах.
+- **Уведомления**: Когда вы добавляете фильм в список всплывающее окно уведомит вас об успехе или ошибке
 
-## Customize configuration
+### Цели проекта
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+Проект призван продемонстрировать:
 
-## Project Setup
-
-```sh
-npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
-```
-
-### Type-Check, Compile and Minify for Production
-
-```sh
-npm run build
-```
+- Умение работать с **Vue 3** и **TypeScript** для создания масштабируемых и поддерживаемых приложений.
+- Опыт интеграции с внешними API, такими как API Кинопоиска и mokky.dev.
+- Разработку удобного и понятного интерфейса для пользователей.
