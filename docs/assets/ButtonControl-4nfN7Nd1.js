@@ -1,1 +1,0 @@
-import{d as o,c as e,t as n,o as s,_ as a}from"./index-Dwht1Bct.js";const c={class:"button"},r=o({__name:"ButtonControl",props:{text:{}},setup(_){return(t,p)=>(s(),e("button",c,n(t.text),1))}}),u=a(r,[["__scopeId","data-v-30dce724"]]);export{u as B};

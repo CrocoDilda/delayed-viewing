@@ -1,1 +1,0 @@
-import{d as a,i as s,o as t,c as o,a as c,t as r,u as n,_}from"./index-Dwht1Bct.js";const d={class:"header"},p={class:"header--text"},m=a({__name:"HeaderItem",setup(i){const e=s("appName");return(h,l)=>(t(),o("header",d,[c("h2",p,r(n(e)),1)]))}}),u=_(m,[["__scopeId","data-v-e168ddbc"]]);export{u as H};
