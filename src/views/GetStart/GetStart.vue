@@ -34,7 +34,8 @@ const filmAdded = () => goToRoutesPage(router, `/home/main`, true)
     <div class="inner">
       <h2 class="title">
         В вашей коллекции пока пусто 😞 <br />
-        Нажмите, чтобы <span class="title_green">добавить</span> свой первый
+        Нажмите <span class="title_green">Get start</span>, чтобы
+        <span class="title_green">добавить</span> свой первый
         <span class="title_green">фильм</span> или
         <span class="title_green">сериал</span> 🤩
       </h2>
